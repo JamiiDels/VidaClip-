@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VidaClip — Turn Any Long Video Into Viral Shorts & Reels</title>
+  <meta name="description" content="AI-assisted video reframing, 50/50 podcast splits, and triple stack templates with 100% local hardware-accelerated exports. Zero watermarks, zero cloud delays.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --bg-surface: #0e121b;
+      --bg-card: rgba(18, 24, 38, 0.7);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(99, 102, 241, 0.35);
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.4);
+      --accent: #06b6d4;
+      --emerald: #10b981;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient background glows */
+    .glow-bg {
+      position: fixed;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(6, 182, 212, 0.1) 40%, rgba(7, 9, 14, 0) 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+    }
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, #4338ca 100%);
+      color: #fff;
+      box-shadow: 0 4px 20px var(--primary-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(99, 102, 241, 0.6);
+    }
+    .btn-secondary {
+      background: var(--bg-card);
+      border-color: var(--border);
+      color: #fff;
+      backdrop-filter: blur(10px);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 90px 0 60px;
+      text-align: center;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #a5b4fc;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(38px, 6vw, 68px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 20%, #a5b4fc 70%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto 36px;
+      font-size: 18px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .btn-lg {
+      padding: 15px 32px;
+      font-size: 16px;
+      border-radius: 12px;
+    }
+
+    /* Showcase preview frame */
+    .hero-preview {
+      max-width: 940px;
+      margin: 0 auto;
+      border-radius: 20px;
+      background: var(--bg-surface);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 40px rgba(99, 102, 241, 0.2);
+      overflow: hidden;
+      position: relative;
+    }
+    .preview-header {
+      background: #090c14;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .preview-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .preview-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #334155;
+    }
+    .preview-dots span:nth-child(1) { background: #ef4444; }
+    .preview-dots span:nth-child(2) { background: #eab308; }
+    .preview-dots span:nth-child(3) { background: #22c55e; }
+    .preview-title {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .preview-stage {
+      padding: 40px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      background: radial-gradient(circle at center, #151b29 0%, #090c14 100%);
+    }
+    .phone-mockup {
+      width: 260px;
+      height: 480px;
+      background: #000;
+      border-radius: 36px;
+      border: 6px solid #2a334a;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .mockup-half {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+    .mockup-half:first-child {
+      border-bottom: 2px solid #6366f1;
+      background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%);
+    }
+    .mockup-half:last-child {
+      background: linear-gradient(180deg, #064e3b 0%, #065f46 100%);
+    }
+    .mockup-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+    .mockup-overlay-safe {
+      position: absolute;
+      inset: 0;
+      border: 1px dashed rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
+    .preview-features {
+      max-width: 440px;
+      text-align: left;
+    }
+    .preview-features h3 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .preview-features p {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+    .feature-check {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .feature-check li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .check-icon {
+      width: 20px;
+      height: 20px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* Feature Grid */
+    .features-section {
+      padding: 100px 0;
+    }
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 60px;
+    }
+    .section-header h2 {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(14px);
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-glow);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #a5b4fc;
+    }
+    .card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+    .card p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* Pricing */
+    .pricing-section {
+      padding: 100px 0;
+      background: linear-gradient(180deg, rgba(7, 9, 14, 0) 0%, rgba(14, 18, 27, 0.6) 100%);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      align-items: stretch;
+    }
+    .pricing-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+    .pricing-card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .pricing-card.featured {
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 40px var(--primary-glow);
+      transform: scale(1.03);
+      background: linear-gradient(180deg, #131726 0%, #0e121b 100%);
+    }
+    .featured-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--primary) 0%, #06b6d4 100%);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .plan-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .plan-price {
+      font-size: 40px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: -1px;
+    }
+    .plan-price span {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .plan-desc {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 24px;
+      min-height: 40px;
+    }
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex: 1;
+    }
+    .plan-features li {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #cbd5e1;
+    }
+    .plan-features li span {
+      color: var(--emerald);
+      font-weight: bold;
+    }
+
+    /* FAQ */
+    .faq-section {
+      padding: 80px 0 100px;
+    }
+    .faq-grid {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .faq-item h4 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .faq-item p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 0 40px;
+      background: #04060a;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .footer-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #fff; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #0e131f;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      max-width: 640px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 32px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .modal-box h3 { margin-bottom: 16px; font-size: 22px; }
+    .modal-box p { color: var(--text-muted); font-size: 14px; margin-bottom: 12px; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 38px; }
+      .pricing-card.featured { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-bg"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-wrap">
+      <a href="#" class="brand">
+        <img src="vidaclip-logo.png" alt="VidaClip Logo">
+        VidaClip
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#templates">Templates</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div style="display: flex; gap: 12px;">
+        <a href="#pricing" class="btn btn-secondary">Pricing</a>
+        <a href="#download" class="btn btn-primary">Download Free</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="pill">⚡ VidaClip 1.2.2 Live for Windows & Chrome</div>
+      <h1>
+        Turn Any Long Video Into<br>
+        <span class="gradient-text">Viral Shorts & Reels in Seconds</span>
+      </h1>
+      <p>
+        The local hardware-accelerated video clipping studio. Create 50/50 podcast splits, triple-stacked reactions, and seamless multi-clip sequences with zero quality loss and zero cloud rendering wait times.
+      </p>
+      <div class="hero-actions" id="download">
+        <a href="https://github.com/JamiiDels/VidaClip-/releases" class="btn btn-primary btn-lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801"/></svg>
+          Download for Windows (64-bit)
+        </a>
+        <a href="#features" class="btn btn-secondary btn-lg">
+          Learn How It Works
+        </a>
+      </div>
+
+      <!-- Preview Mockup -->
+      <div class="hero-preview" id="templates">
+        <div class="preview-header">
+          <div class="preview-dots"><span></span><span></span><span></span></div>
+          <div class="preview-title">vidaclip-studio — 9:16 Portrait Canvas (1080 × 1920)</div>
+        </div>
+        <div class="preview-stage">
+          <div class="phone-mockup">
+            <div class="mockup-half">
+              <span class="mockup-tag">🎙️ Host (Locked 850×1450)</span>
+              <div class="mockup-overlay-safe"></div>
+            </div>
+            <div class="mockup-half">
+              <span class="mockup-tag">🎯 Guest (Locked 850×1450)</span>
+              <div class="mockup-overlay-safe"></div>
+            </div>
+          </div>
+          <div class="preview-features">
+            <h3>50/50 Podcast Duo Split</h3>
+            <p>Frame two speakers side-by-side with locked 850×1450 aspect ratios. No stretched faces, no black bars, and zero quality loss.</p>
+            <ul class="feature-check">
+              <li><span class="check-icon">✓</span> Locked 850×1450 Proportional Crop Boxes</li>
+              <li><span class="check-icon">✓</span> Multi-Video Continuous Timeline (Up to 3 Videos)</li>
+              <li><span class="check-icon">✓</span> Instant Auto-Open in Media Player Upon Export</li>
+              <li><span class="check-icon">✓</span> 100% Local GPU Rendering with Bundled FFmpeg</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Built for High-Growth Creators</h2>
+        <p>Everything you need to turn 2-hour podcasts and gameplay streams into high-retention short videos.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>100% Local GPU Rendering</h3>
+          <p>Unlike cloud tools that make you wait in long queues and compress your footage, VidaClip renders locally on your PC using bundled FFmpeg hardware acceleration.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎙️</div>
+          <h3>50/50 & Triple Stack Layouts</h3>
+          <p>One-click presets for podcast interviews, gaming reactions, and multi-speaker conversations with mathematically locked aspect ratios.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">✂️</div>
+          <h3>Multi-Video Timeline</h3>
+          <p>Split, insert, and combine clips from up to 3 separate videos into one continuous merged export with gapless audio transitions.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🛡️</div>
+          <h3>TikTok & Reels Safe Zones</h3>
+          <p>Toggle real-time visual overlays for TikTok, Instagram Reels, and YouTube Shorts so your captions and faces are never hidden behind app buttons.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💾</div>
+          <h3>Auto-Save & Hotkeys</h3>
+          <p>Pro timeline shortcuts (Space, S to split, V to select, Ctrl+Z/Y) with automatic project recovery so you never lose an edit.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🚀</div>
+          <h3>Zero Watermarks Forever</h3>
+          <p>Your content is 100% yours. Clean, crisp 1080p 60fps output ready to publish straight to your channels without any forced branding.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <h2>Simple, Transparent Monthly Plans</h2>
+        <p>Start free, upgrade as your channel grows. Cancel anytime with 1-click self-service.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Free -->
+        <div class="pricing-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">$0 <span>/ month</span></div>
+          <div class="plan-desc">Perfect for trying out VidaClip on your own videos.</div>
+          <ul class="plan-features">
+            <li><span>✓</span> 1 Export per day</li>
+            <li><span>✓</span> 30-Second clip limit</li>
+            <li><span>✓</span> All layout templates included</li>
+            <li><span>✓</span> 100% Local rendering</li>
+            <li><span>✓</span> Zero watermarks</li>
+          </ul>
+          <a href="#download" class="btn btn-secondary">Get Started Free</a>
+        </div>
+
+        <!-- Creator -->
+        <div class="pricing-card">
+          <div class="plan-name">Creator</div>
+          <div class="plan-price">$9 <span>/ month</span></div>
+          <div class="plan-desc">For active creators posting daily TikToks & Shorts.</div>
+          <ul class="plan-features">
+            <li><span>✓</span> 5 Exports per day</li>
+            <li><span>✓</span> 10-Minute clip limit</li>
+            <li><span>✓</span> 50/50 & Triple Stack templates</li>
+            <li><span>✓</span> Multi-video sequencing (3 videos)</li>
+            <li><span>✓</span> Priority email support</li>
+          </ul>
+          <a href="#" class="btn btn-secondary" onclick="alert('Checkout link opening soon!')">Subscribe Monthly</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="pricing-card featured">
+          <span class="featured-badge">Most Popular</span>
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">$19 <span>/ month</span></div>
+          <div class="plan-desc">For serious podcasters, editors & clipping channels.</div>
+          <ul class="plan-features">
+            <li><span>✓</span> 50 Exports per day</li>
+            <li><span>✓</span> 30-Minute clip limit</li>
+            <li><span>✓</span> All Studio editing tools</li>
+            <li><span>✓</span> Safe-zone guides & hotkey suite</li>
+            <li><span>✓</span> Multi-video merged sequences</li>
+            <li><span>✓</span> Priority feature updates</li>
+          </ul>
+          <a href="#" class="btn btn-primary" onclick="alert('Checkout link opening soon!')">Subscribe to Pro</a>
+        </div>
+
+        <!-- Studio -->
+        <div class="pricing-card">
+          <div class="plan-name">Studio</div>
+          <div class="plan-price">$39 <span>/ month</span></div>
+          <div class="plan-desc">Unlimited power for video agencies and editing teams.</div>
+          <ul class="plan-features">
+            <li><span>✓</span> Unlimited Exports daily</li>
+            <li><span>✓</span> Unlimited video duration</li>
+            <li><span>✓</span> Unlimited multi-clip sequences</li>
+            <li><span>✓</span> Highest bitrate & 60fps export</li>
+            <li><span>✓</span> 1-on-1 VIP Support</li>
+          </ul>
+          <a href="#" class="btn btn-secondary" onclick="alert('Checkout link opening soon!')">Subscribe to Studio</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>Does VidaClip upload my videos to the cloud?</h4>
+          <p>No. VidaClip runs 100% locally on your PC. Your video files, audio, and private recordings never leave your machine, ensuring total privacy and maximum rendering speed.</p>
+        </div>
+        <div class="faq-item">
+          <h4>How do I cancel my subscription?</h4>
+          <p>Every subscription email includes a self-service customer portal link where you can update your payment method or cancel in one click anytime.</p>
+        </div>
+        <div class="faq-item">
+          <h4>What platforms are supported?</h4>
+          <p>VidaClip Desktop is currently built for Windows 10 and 11 (64-bit). The browser companion extension is available for Google Chrome and Microsoft Edge.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-wrap">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="vidaclip-logo.png" alt="VidaClip" style="width: 24px; height: 24px; border-radius: 6px;">
+        <span>© 2026 VidaClip. All rights reserved.</span>
+      </div>
+      <div class="footer-links">
+        <a href="#" onclick="openModal('terms')">Terms of Service</a>
+        <a href="#" onclick="openModal('privacy')">Privacy Policy</a>
+        <a href="mailto:support@vidaclip.app">Contact Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Terms Modal -->
+  <div class="modal-overlay" id="modal-terms">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('terms')">&times;</button>
+      <h3>Terms of Service</h3>
+      <p>Last updated: September 2026</p>
+      <p>By downloading or using VidaClip Desktop and Extension, you agree to these Terms. VidaClip provides local video editing and reframing software.</p>
+      <p><strong>License & Usage:</strong> You are granted a personal, non-exclusive license to use VidaClip in accordance with your chosen subscription plan. You retain 100% ownership of all media you edit or export.</p>
+      <p><strong>Subscriptions & Refunds:</strong> Monthly subscriptions are billed automatically every 30 days. You may cancel anytime via the self-service billing portal.</p>
+    </div>
+  </div>
+
+  <!-- Privacy Modal -->
+  <div class="modal-overlay" id="modal-privacy">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('privacy')">&times;</button>
+      <h3>Privacy Policy</h3>
+      <p>Last updated: September 2026</p>
+      <p><strong>Zero Data Collection:</strong> VidaClip is a local-first application. We do not collect, store, or transmit your video files, audio tracks, or personal recordings. All rendering takes place strictly on your local hardware.</p>
+      <p><strong>Payment Information:</strong> All billing and payments are securely handled by our Merchant of Record (Lemon Squeezy). We never see or store your credit card information.</p>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) {
+      document.getElementById('modal-' + id).classList.add('active');
+    }
+    function closeModal(id) {
+      document.getElementById('modal-' + id).classList.remove('active');
+    }
+  </script>
+</body>
+</html>
