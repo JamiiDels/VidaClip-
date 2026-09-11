@@ -565,10 +565,83 @@
     .modal-box h3 { margin-bottom: 16px; font-size: 22px; }
     .modal-box p { color: var(--text-muted); font-size: 14px; margin-bottom: 12px; }
 
+    /* 2-Step Setup Visual Funnel */
+    .setup-funnel {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr;
+      align-items: center;
+      gap: 16px;
+      margin: 32px 0 20px;
+      text-align: left;
+    }
+    .setup-card {
+      background: rgba(18, 24, 38, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .setup-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-2px);
+    }
+    .setup-step-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    .setup-step-tag.step1 { background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.4); }
+    .setup-step-tag.step2 { background: rgba(6, 182, 212, 0.2); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.4); }
+    .setup-card h3 { font-size: 18px; margin-bottom: 6px; color: var(--text); }
+    .setup-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
+    .setup-card .btn { width: 100%; justify-content: center; font-size: 14px; }
+    .setup-arrow { text-align: center; color: var(--primary); font-size: 26px; font-weight: bold; }
+    .setup-subtext { font-size: 11.5px; color: var(--text-muted); margin-top: 8px; text-align: center; display: block; }
+    .portable-link-row { text-align: center; margin-top: 0; margin-bottom: 34px; font-size: 13px; color: var(--text-muted); }
+    .portable-link-row a { color: var(--accent); text-decoration: none; }
+    .portable-link-row a:hover { text-decoration: underline; }
+
+    /* Browser Selection Tabs */
+    .browser-nav {
+      display: flex;
+      gap: 8px;
+      margin: 18px 0 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      overflow-x: auto;
+    }
+    .browser-tab {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s;
+    }
+    .browser-tab:hover { background: rgba(255, 255, 255, 0.1); color: var(--text); }
+    .browser-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .browser-pane { display: none; }
+    .browser-pane.active { display: block; animation: fadeIn 0.2s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .hero h1 { font-size: 38px; }
       .pricing-card.featured { transform: none; }
+      .setup-funnel { grid-template-columns: 1fr; gap: 12px; }
+      .setup-arrow { transform: rotate(90deg); margin: -4px 0; }
     }
   </style>
 </head>
@@ -591,7 +664,7 @@
       </ul>
       <div style="display: flex; gap: 12px;">
         <a href="#pricing" class="btn btn-secondary">Pricing</a>
-        <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.2/VidaClip-Desktop-1.2.2-Windows.zip" class="btn btn-primary">Download Free</a>
+        <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Setup-1.2.3.exe" onclick="openModal('windows')" class="btn btn-primary">Download Free</a>
       </div>
     </div>
   </header>
@@ -599,7 +672,7 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
-      <div class="pill">⚡ VidaClip 1.2.2 Live for Windows & Chrome</div>
+      <div class="pill">⚡ VidaClip 1.2.3 Live for Windows & Chrome</div>
       <h1>
         Turn Any Long Video Into<br>
         <span class="gradient-text">Viral Shorts & Reels in Seconds</span>
@@ -607,14 +680,36 @@
       <p>
         The local hardware-accelerated video clipping studio. Create 50/50 podcast splits, triple-stacked reactions, and seamless multi-clip sequences with zero quality loss and zero cloud rendering wait times.
       </p>
-      <div class="hero-actions" id="download">
-        <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.2/VidaClip-Desktop-1.2.2-Windows.zip" class="btn btn-primary btn-lg">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801"/></svg>
-          Download for Windows (64-bit)
-        </a>
-        <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.2/VidaClip-Extension-1.2.2.zip" class="btn btn-secondary btn-lg">
-          Download Chrome Extension (.zip)
-        </a>
+      <!-- 2-Step Quick-Start Setup Funnel -->
+      <div class="setup-funnel" id="download">
+        <!-- Step 1: Core Windows Studio -->
+        <div class="setup-card">
+          <span class="setup-step-tag step1">STEP 1 • CORE DESKTOP ENGINE</span>
+          <h3>VidaClip for Windows</h3>
+          <p>Installs the local hardware-accelerated video rendering engine & smart clipping service. Zero admin rights required.</p>
+          <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Setup-1.2.3.exe" onclick="openModal('windows')" class="btn btn-primary btn-lg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801"/></svg>
+            Download Windows Installer (.exe)
+          </a>
+          <span class="setup-subtext">Official Windows Setup (v1.2.3) • In-App Auto Updates</span>
+        </div>
+
+        <div class="setup-arrow">➔</div>
+
+        <!-- Step 2: Browser Clipper -->
+        <div class="setup-card">
+          <span class="setup-step-tag step2">STEP 2 • BROWSER CLIPPER</span>
+          <h3>VidaClip Web Companion</h3>
+          <p>Adds the 1-click "✂ Clip" overlay button to YouTube, TikTok, and web video players straight into your desktop studio.</p>
+          <button onclick="openModal('install')" class="btn btn-secondary btn-lg">
+            🧩 Choose Browser Guide
+          </button>
+          <span class="setup-subtext">Chrome, Edge, Brave, and Firefox Supported</span>
+        </div>
+      </div>
+
+      <div class="portable-link-row">
+        Prefer a standalone folder without an installer? <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Desktop-1.2.3-Windows.zip">Download Portable ZIP Edition (v1.2.3)</a>
       </div>
 
       <!-- Preview Mockup -->
@@ -713,7 +808,7 @@
             <li><span>✓</span> 100% Local rendering</li>
             <li><span>✓</span> Zero watermarks</li>
           </ul>
-          <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.2/VidaClip-Desktop-1.2.2-Windows.zip" class="btn btn-secondary">Get Started Free</a>
+          <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Setup-1.2.3.exe" onclick="openModal('windows')" class="btn btn-secondary">Get Started Free</a>
         </div>
 
         <!-- Creator -->
@@ -828,12 +923,129 @@
     </div>
   </div>
 
+  <!-- Extension Install Modal (Multi-Browser) -->
+  <div class="modal-overlay" id="modal-install">
+    <div class="modal-box" style="max-width: 680px;">
+      <button class="modal-close" onclick="closeModal('install')">&times;</button>
+      <h3>VidaClip Extension — Browser Setup Guide</h3>
+      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 8px;">
+        Choose your web browser below for step-by-step installation instructions:
+      </p>
+
+      <!-- Browser Tabs -->
+      <div class="browser-nav">
+        <button class="browser-tab active" data-browser="chrome" onclick="switchBrowserTab('chrome')">
+          🌐 Google Chrome
+        </button>
+        <button class="browser-tab" data-browser="edge" onclick="switchBrowserTab('edge')">
+          🌊 Microsoft Edge
+        </button>
+        <button class="browser-tab" data-browser="brave" onclick="switchBrowserTab('brave')">
+          🦁 Brave Browser
+        </button>
+        <button class="browser-tab" data-browser="firefox" onclick="switchBrowserTab('firefox')">
+          🦊 Mozilla Firefox
+        </button>
+      </div>
+
+      <!-- Tab 1: Chrome -->
+      <div class="browser-pane active" id="pane-chrome">
+        <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+          <h4 style="margin: 0 0 4px; color: #a5b4fc; font-size: 14px;">Google Chrome Quick Setup</h4>
+          <p style="margin: 0; font-size: 13px; color: var(--text-muted);">Takes under 30 seconds. No store account required.</p>
+        </div>
+        <ol style="color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
+          <li><strong>Download:</strong> Click the button below to download <code>VidaClip-Extension-1.2.3.zip</code> and extract it to a folder.</li>
+          <li><strong>Open Extensions:</strong> In Chrome's address bar, type <code>chrome://extensions</code> and press Enter.</li>
+          <li><strong>Developer Mode:</strong> Switch on the <strong>Developer mode</strong> toggle located at the top-right corner.</li>
+          <li><strong>Load Unpacked:</strong> Click the <strong>Load unpacked</strong> button at the top-left, and select the extracted folder.</li>
+        </ol>
+      </div>
+
+      <!-- Tab 2: Edge -->
+      <div class="browser-pane" id="pane-edge">
+        <div style="background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+          <h4 style="margin: 0 0 4px; color: #67e8f9; font-size: 14px;">Microsoft Edge Quick Setup</h4>
+          <p style="margin: 0; font-size: 13px; color: var(--text-muted);">Native support for Chromium extensions with zero performance overhead.</p>
+        </div>
+        <ol style="color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
+          <li><strong>Download:</strong> Download and extract <code>VidaClip-Extension-1.2.3.zip</code>.</li>
+          <li><strong>Open Extensions:</strong> In Edge's address bar, type <code>edge://extensions</code> and press Enter.</li>
+          <li><strong>Developer Mode:</strong> Toggle on the <strong>Developer mode</strong> switch in the left sidebar menu.</li>
+          <li><strong>Load Unpacked:</strong> Click <strong>Load unpacked</strong> and select the unzipped <code>VidaClip-Extension-1.2.3</code> folder.</li>
+        </ol>
+      </div>
+
+      <!-- Tab 3: Brave -->
+      <div class="browser-pane" id="pane-brave">
+        <div style="background: rgba(249, 115, 22, 0.08); border: 1px solid rgba(249, 115, 22, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+          <h4 style="margin: 0 0 4px; color: #fdba74; font-size: 14px;">Brave Browser Setup</h4>
+          <p style="margin: 0; font-size: 13px; color: var(--text-muted);">Full Brave Shields compatibility with 100% private local clipping.</p>
+        </div>
+        <ol style="color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
+          <li><strong>Download:</strong> Download and extract <code>VidaClip-Extension-1.2.3.zip</code>.</li>
+          <li><strong>Open Extensions:</strong> Go to <code>brave://extensions</code> in your Brave URL bar.</li>
+          <li><strong>Developer Mode:</strong> Enable the <strong>Developer mode</strong> toggle at the top right.</li>
+          <li><strong>Load Unpacked:</strong> Click <strong>Load unpacked</strong> and select the unzipped folder.</li>
+        </ol>
+      </div>
+
+      <!-- Tab 4: Firefox -->
+      <div class="browser-pane" id="pane-firefox">
+        <div style="background: rgba(236, 72, 153, 0.08); border: 1px solid rgba(236, 72, 153, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+          <h4 style="margin: 0 0 4px; color: #f472b6; font-size: 14px;">Mozilla Firefox Setup</h4>
+          <p style="margin: 0; font-size: 13px; color: var(--text-muted);">Compatible with Firefox AMO standard and temporary debugging.</p>
+        </div>
+        <ol style="color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
+          <li><strong>Download:</strong> Download and extract <code>VidaClip-Extension-1.2.3.zip</code>.</li>
+          <li><strong>Open Debugging:</strong> In Firefox address bar, navigate to <code>about:debugging#/runtime/this-firefox</code>.</li>
+          <li><strong>Load Add-on:</strong> Click the <strong>Load Temporary Add-on...</strong> button.</li>
+          <li><strong>Select Manifest:</strong> Select the <code>manifest.json</code> file located inside the extracted folder.</li>
+        </ol>
+      </div>
+
+      <div style="display: flex; gap: 12px; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 18px; margin-top: 8px;">
+        <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Extension-1.2.3.zip" class="btn btn-primary" style="flex: 1; justify-content: center;">
+          ⬇️ Download Extension Package (.zip)
+        </a>
+        <button onclick="closeModal('install')" class="btn btn-secondary">
+          Got It
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Windows Quick Start Modal -->
+  <div class="modal-overlay" id="modal-windows">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('windows')">&times;</button>
+      <h3>VidaClip Desktop — Windows Installation Guide</h3>
+      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">VidaClip Desktop installs cleanly with zero configuration. All dependencies (Python, Chromium WebView2, GPU FFmpeg) are pre-bundled:</p>
+      <ol style="color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
+        <li><strong>Run Installer:</strong> Open the downloaded <code>VidaClip-Setup-1.2.3.exe</code> to begin installation.</li>
+        <li><strong>Automatic Setup:</strong> It automatically places shortcuts on your Desktop and Start Menu without needing Administrator rights.</li>
+        <li><strong>Start Clipping:</strong> Keep the app running in the background. Use the ✂ Clip button on your web browser or import media into the Library!</li>
+      </ol>
+      <div style="background: rgba(124, 99, 255, 0.1); border: 1px solid rgba(124, 99, 255, 0.3); border-radius: 10px; padding: 12px; margin-top: 14px;">
+        <p style="font-size: 13px; color: #a78bfa; margin: 0;"><strong>📦 Prefer portable?</strong> You can also download the <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Desktop-1.2.3-Windows.zip" style="color: #67e8f9; text-decoration: underline;">portable .zip version</a> if you prefer not to install.</p>
+      </div>
+    </div>
+  </div>
+
   <script>
     function openModal(id) {
       document.getElementById('modal-' + id).classList.add('active');
     }
     function closeModal(id) {
       document.getElementById('modal-' + id).classList.remove('active');
+    }
+    function switchBrowserTab(browserName) {
+      document.querySelectorAll('.browser-tab').forEach(function(tab) {
+        tab.classList.toggle('active', tab.getAttribute('data-browser') === browserName);
+      });
+      document.querySelectorAll('.browser-pane').forEach(function(pane) {
+        pane.classList.toggle('active', pane.id === 'pane-' + browserName);
+      });
     }
   </script>
 </body>
