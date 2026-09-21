@@ -565,47 +565,170 @@
     .modal-box h3 { margin-bottom: 16px; font-size: 22px; }
     .modal-box p { color: var(--text-muted); font-size: 14px; margin-bottom: 12px; }
 
-    /* 2-Step Setup Visual Funnel */
-    .setup-funnel {
-      display: grid;
-      grid-template-columns: 1fr 40px 1fr;
+    /* Centered Hero CTA Suite */
+    .hero-center-cta {
+      display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 16px;
-      margin: 32px 0 20px;
+      margin: 36px auto 28px;
+      max-width: 680px;
+    }
+    .cta-button-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .btn-hero-lg {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 30px;
+      border-radius: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .btn-edge-primary {
+      background: linear-gradient(135deg, #0078d4 0%, #00bcf2 50%, #10b981 100%);
+      background-size: 200% 200%;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 35px rgba(0, 188, 242, 0.4), 0 0 20px rgba(16, 185, 129, 0.25);
+    }
+    .btn-edge-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 16px 45px rgba(0, 188, 242, 0.55), 0 0 30px rgba(16, 185, 129, 0.4);
+      background-position: 100% 100%;
+    }
+    .btn-text-wrap {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      line-height: 1.25;
+    }
+    .btn-main-text {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+    .btn-sub-text {
+      font-size: 11.5px;
+      font-weight: 500;
+      opacity: 0.85;
+      letter-spacing: 0.2px;
+    }
+    .hero-trust-badges {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+    .hero-trust-badges span:nth-child(even) {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Desktop Companion Studio Card */
+    .desktop-companion-card {
+      background: rgba(14, 18, 28, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 16px 24px;
+      margin: 0 auto 36px;
+      max-width: 860px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .desktop-companion-card:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+      transform: translateY(-1px);
+    }
+    .desktop-card-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
       text-align: left;
     }
-    .setup-card {
-      background: rgba(18, 24, 38, 0.7);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      position: relative;
-      transition: border-color 0.2s, transform 0.2s;
+    .desktop-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #818cf8;
+      flex-shrink: 0;
     }
-    .setup-card:hover {
-      border-color: var(--border-glow);
-      transform: translateY(-2px);
+    .desktop-card-text h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 2px;
     }
-    .setup-step-tag {
+    .desktop-card-text p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.4;
+    }
+    .desktop-tag {
       display: inline-block;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 6px;
-      margin-bottom: 12px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+      margin-bottom: 4px;
     }
-    .setup-step-tag.step1 { background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.4); }
-    .setup-step-tag.step2 { background: rgba(6, 182, 212, 0.2); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.4); }
-    .setup-card h3 { font-size: 18px; margin-bottom: 6px; color: var(--text); }
-    .setup-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
-    .setup-card .btn { width: 100%; justify-content: center; font-size: 14px; }
-    .setup-arrow { text-align: center; color: var(--primary); font-size: 26px; font-weight: bold; }
-    .setup-subtext { font-size: 11.5px; color: var(--text-muted); margin-top: 8px; text-align: center; display: block; }
-    .portable-link-row { text-align: center; margin-top: 0; margin-bottom: 34px; font-size: 13px; color: var(--text-muted); }
-    .portable-link-row a { color: var(--accent); text-decoration: none; }
-    .portable-link-row a:hover { text-decoration: underline; }
+    .desktop-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text);
+    }
+    .btn-link {
+      background: none;
+      border: none;
+      color: #38bdf8;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 6px 10px;
+    }
+    .btn-link:hover {
+      color: #7dd3fc;
+    }
 
     /* Browser Selection Tabs */
     .browser-nav {
@@ -636,7 +759,7 @@
     .browser-pane.active { display: block; animation: fadeIn 0.2s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Screenshots Showcase Gallery */
+    /* Screenshots Showcase Gallery (Instant 0ms switching) */
     .showcase-nav {
       display: flex;
       gap: 8px;
@@ -671,21 +794,37 @@
       box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
     }
     .showcase-image-container {
-      background: #080a10;
-      padding: 20px;
+      background: #06080e;
+      padding: 12px;
       display: flex;
       justify-content: center;
       align-items: center;
       border-radius: 0 0 20px 20px;
+      min-height: 460px;
+      position: relative;
+    }
+    .showcase-slide {
+      display: none;
+      width: 100%;
+      text-align: center;
+    }
+    .showcase-slide.active {
+      display: block;
+      animation: fadeInSlide 0.12s ease-out;
+    }
+    @keyframes fadeInSlide {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
     }
     .showcase-img {
       width: 100%;
       max-width: 1160px;
       height: auto;
-      border-radius: 12px;
+      border-radius: 10px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-      transition: opacity 0.2s ease;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9);
+      display: block;
+      margin: 0 auto;
     }
 
     /* Billing Toggle (Monthly vs Annual 1-Year) */
@@ -803,40 +942,68 @@
       <p>
         The local hardware-accelerated video clipping studio. Create 50/50 podcast splits, triple-stacked reactions, and seamless multi-clip sequences with zero quality loss and zero cloud rendering wait times.
       </p>
-      <!-- 2-Step Quick-Start Setup Funnel -->
-      <div class="setup-funnel" id="download">
-        <!-- Step 1: Core Windows Studio -->
-        <div class="setup-card">
-          <span class="setup-step-tag step1">STEP 1 • CORE DESKTOP ENGINE</span>
-          <h3>VidaClip for Windows</h3>
-          <p>Installs the local hardware-accelerated video rendering engine & smart clipping service. Zero admin rights required.</p>
-          <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Setup-1.2.3.exe" onclick="openModal('windows')" class="btn btn-primary btn-lg">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801"/></svg>
-            Download Windows Installer (.exe)
+      <!-- Centered Primary Hero CTA Suite -->
+      <div class="hero-center-cta">
+        <div class="cta-button-group">
+          <!-- Primary: Add to Microsoft Edge -->
+          <a href="https://microsoftedge.microsoft.com/addons/detail/ooogedpnllkpbgdohjakigfajiohmdli" target="_blank" class="btn btn-edge-primary btn-hero-lg">
+            <svg class="btn-icon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M0 12.18c0-4.32 2.45-8.22 6.3-10.05C5.7 3.96 5.85 6.06 6.8 8.04c.8 1.66 2.08 2.97 3.69 3.73-.24-.9-.23-1.85.03-2.73.34-1.12 1.05-2.07 2.01-2.69 1.48-.96 3.42-1.16 5.09-.54 1.7.63 3.01 2.02 3.6 3.71.6 1.7.42 3.59-.49 5.15-1.13 1.93-3.14 3.19-5.38 3.37-3.79.3-7.23-2.19-7.96-5.89-.09-.46-.14-.94-.14-1.42 0-.27.02-.54.05-.8C3.12 11.23 0 11.66 0 12.18z"/>
+            </svg>
+            <div class="btn-text-wrap">
+              <span class="btn-main-text">Add to Microsoft Edge</span>
+              <span class="btn-sub-text">Official Store • 1-Click Free Install</span>
+            </div>
           </a>
-          <span class="setup-subtext">Official Windows Setup (v1.2.3) • In-App Auto Updates</span>
+
+          <!-- Secondary: Chrome, Brave & Firefox Guide -->
+          <button onclick="openModal('install')" class="btn btn-secondary btn-hero-lg">
+            <svg class="btn-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            <div class="btn-text-wrap">
+              <span class="btn-main-text">Chrome, Brave & Firefox</span>
+              <span class="btn-sub-text">Quick Setup Guide</span>
+            </div>
+          </button>
         </div>
 
-        <div class="setup-arrow">➔</div>
-
-        <!-- Step 2: Browser Clipper -->
-        <div class="setup-card">
-          <span class="setup-step-tag step2">STEP 2 • BROWSER CLIPPER</span>
-          <h3>VidaClip Web Companion</h3>
-          <p>Adds the 1-click "✂ Clip" overlay button to YouTube, TikTok, and web video players straight into your desktop studio.</p>
-          <a href="https://microsoftedge.microsoft.com/addons/detail/ooogedpnllkpbgdohjakigfajiohmdli" target="_blank" class="btn btn-primary btn-lg" style="margin-bottom: 8px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 12.18c0-4.32 2.45-8.22 6.3-10.05C5.7 3.96 5.85 6.06 6.8 8.04c.8 1.66 2.08 2.97 3.69 3.73-.24-.9-.23-1.85.03-2.73.34-1.12 1.05-2.07 2.01-2.69 1.48-.96 3.42-1.16 5.09-.54 1.7.63 3.01 2.02 3.6 3.71.6 1.7.42 3.59-.49 5.15-1.13 1.93-3.14 3.19-5.38 3.37-3.79.3-7.23-2.19-7.96-5.89-.09-.46-.14-.94-.14-1.42 0-.27.02-.54.05-.8C3.12 11.23 0 11.66 0 12.18z"/></svg>
-            Add to Microsoft Edge (Official Store)
-          </a>
-          <button onclick="openModal('install')" class="btn btn-secondary" style="width: 100%;">
-            🧩 Chrome, Brave & Firefox Guide
-          </button>
-          <span class="setup-subtext">Verified 1-Click Store Install for Edge • Multi-Browser Ready</span>
+        <div class="hero-trust-badges">
+          <span>⭐ 5.0 Rating</span>
+          <span>•</span>
+          <span>⚡ Instant 1-Click Install</span>
+          <span>•</span>
+          <span>🔒 100% Private Local Clipping</span>
+          <span>•</span>
+          <span>🚫 Zero Watermarks</span>
         </div>
       </div>
 
-      <div class="portable-link-row">
-        Prefer a standalone folder without an installer? <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Desktop-1.2.3-Windows.zip">Download Portable ZIP Edition (v1.2.3)</a>
+      <!-- Professional Desktop Studio Companion Banner -->
+      <div class="desktop-companion-card" id="download">
+        <div class="desktop-card-info">
+          <div class="desktop-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801"/>
+            </svg>
+          </div>
+          <div class="desktop-card-text">
+            <div class="desktop-tag">CORE DESKTOP ENGINE</div>
+            <h4>VidaClip Studio for Windows (v1.2.3)</h4>
+            <p>Runs in background for hardware-accelerated 50/50 podcast cuts, multi-cam timeline & safe zones.</p>
+          </div>
+        </div>
+
+        <div class="desktop-card-actions">
+          <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Setup-1.2.3.exe" onclick="openModal('windows')" class="btn btn-primary btn-sm">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Download Windows Installer (.exe)
+          </a>
+          <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Desktop-1.2.3-Windows.zip" class="btn btn-ghost btn-sm">
+            Portable .ZIP
+          </a>
+          <button onclick="openModal('windows')" class="btn btn-link btn-sm">
+            📖 How to Download & Install
+          </button>
+        </div>
       </div>
 
       <!-- Screenshots & Studio Showcase -->
@@ -848,25 +1015,39 @@
 
         <!-- Showcase Navigation Tabs -->
         <div class="showcase-nav">
-          <button class="showcase-tab active" data-shot="5" onclick="switchShowcase(5, 'VidaClip Studio — 50/50 Podcast Duo Split & Vertical Canvas')">
+          <button class="showcase-tab active" data-shot="1" onclick="switchShowcase(1, 'VidaClip Studio — 50/50 Podcast Duo Split & Vertical Canvas')">
             🎙️ Desktop Studio
           </button>
-          <button class="showcase-tab" data-shot="1" onclick="switchShowcase(1, 'YouTube Clipper — Native 1-Click Player Controls')">
+          <button class="showcase-tab" data-shot="2" onclick="switchShowcase(2, 'YouTube Clipper — Native 1-Click Player Controls')">
             ▶️ YouTube Clipper
           </button>
-          <button class="showcase-tab" data-shot="2" onclick="switchShowcase(2, 'TikTok Dynamic Island — Floating Top Clipper')">
+          <button class="showcase-tab" data-shot="3" onclick="switchShowcase(3, 'TikTok Dynamic Island — Floating Top Clipper')">
             📱 TikTok Clipper
           </button>
-          <button class="showcase-tab" data-shot="3" onclick="switchShowcase(3, 'Facebook & Reels Clipper — Seamless Feed Recording')">
+          <button class="showcase-tab" data-shot="4" onclick="switchShowcase(4, 'Facebook Reels — Seamless Feed Recording')">
             🌐 Facebook Reels
           </button>
-          <button class="showcase-tab" data-shot="4" onclick="switchShowcase(4, 'Extension Popup — 1-Click Quality Selector (1080p, 2K, 4K)')">
+          <button class="showcase-tab" data-shot="5" onclick="switchShowcase(5, 'Extension Controls — 1-Click Quality Selector (1080p, 2K, 4K)')">
             🧩 Extension Controls
           </button>
         </div>
 
         <div class="showcase-image-container">
-          <img id="showcase-img" src="screenshots/screen_5.png" alt="VidaClip Studio Screenshot" class="showcase-img">
+          <div class="showcase-slide active" id="slide-1">
+            <img src="screenshots/screen_1.png" alt="VidaClip Studio Desktop" class="showcase-img">
+          </div>
+          <div class="showcase-slide" id="slide-2">
+            <img src="screenshots/screen_2.png" alt="YouTube Clipper" class="showcase-img">
+          </div>
+          <div class="showcase-slide" id="slide-3">
+            <img src="screenshots/screen_3.png" alt="TikTok Clipper" class="showcase-img">
+          </div>
+          <div class="showcase-slide" id="slide-4">
+            <img src="screenshots/screen_4.png" alt="Facebook Reels" class="showcase-img">
+          </div>
+          <div class="showcase-slide" id="slide-5">
+            <img src="screenshots/screen_5.png" alt="Extension Controls" class="showcase-img">
+          </div>
         </div>
       </div>
     </div>
@@ -1203,22 +1384,17 @@
       });
     }
 
-    // Interactive Showcase Gallery Tab Switcher
+    // Interactive Showcase Gallery Tab Switcher (Instant 0ms switching)
     function switchShowcase(shotNum, title) {
-      var img = document.getElementById('showcase-img');
       var titleEl = document.getElementById('showcase-title');
-      if (img) {
-        img.style.opacity = '0.3';
-        setTimeout(function() {
-          img.src = 'screenshots/screen_' + shotNum + '.png';
-          img.style.opacity = '1';
-        }, 120);
-      }
       if (titleEl) {
         titleEl.textContent = title;
       }
       document.querySelectorAll('.showcase-tab').forEach(function(tab) {
         tab.classList.toggle('active', tab.getAttribute('data-shot') == shotNum);
+      });
+      document.querySelectorAll('.showcase-slide').forEach(function(slide) {
+        slide.classList.toggle('active', slide.id === 'slide-' + shotNum);
       });
     }
 
@@ -1229,9 +1405,11 @@
         monthlyPrice: '$9.99',
         monthlyPeriod: '/ month',
         monthlySub: 'Billed monthly ($9.99/mo)',
+        monthlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/e017e628-11b6-482e-a86c-69cf3463c09b',
         yearlyPrice: '$79',
         yearlyPeriod: '/ year',
         yearlySub: 'Just $6.58/mo • Save $40.88 (34% off)',
+        yearlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/57e66a32-1e1f-4d44-8f50-36d3605712b2',
         monthlyBtn: 'Subscribe to Creator',
         yearlyBtn: 'Get Creator 1-Year Plan ($79/yr)'
       },
@@ -1239,9 +1417,11 @@
         monthlyPrice: '$19.99',
         monthlyPeriod: '/ month',
         monthlySub: 'Billed monthly ($19.99/mo)',
+        monthlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/8fcaea3a-e8cb-41ad-8b43-da98732f9e59',
         yearlyPrice: '$159',
         yearlyPeriod: '/ year',
         yearlySub: 'Just $13.25/mo • Save $80.88 (33% off)',
+        yearlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/f8805ab3-54a4-4d1a-8274-bc83c14f631d',
         monthlyBtn: 'Subscribe to Pro',
         yearlyBtn: 'Get Pro 1-Year Plan ($159/yr)'
       },
@@ -1249,9 +1429,11 @@
         monthlyPrice: '$39.99',
         monthlyPeriod: '/ month',
         monthlySub: 'Billed monthly ($39.99/mo)',
+        monthlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/a62be072-8ce2-4de1-ac28-ca9510127ce2',
         yearlyPrice: '$319',
         yearlyPeriod: '/ year',
         yearlySub: 'Just $26.58/mo • Save $160.88 (33% off)',
+        yearlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/fb994be2-5c6f-4d43-911c-b396c97f2240',
         monthlyBtn: 'Subscribe to Studio',
         yearlyBtn: 'Get Studio 1-Year Plan ($319/yr)'
       }
@@ -1292,6 +1474,7 @@
         }
         if (btnEl) {
           btnEl.textContent = isYearly ? data.yearlyBtn : data.monthlyBtn;
+          btnEl.href = isYearly ? data.yearlyUrl : data.monthlyUrl;
         }
       });
     }
