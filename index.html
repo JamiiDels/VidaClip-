@@ -759,72 +759,423 @@
     .browser-pane.active { display: block; animation: fadeIn 0.2s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Screenshots Showcase Gallery (Instant 0ms switching) */
-    .showcase-nav {
-      display: flex;
-      gap: 8px;
-      padding: 12px 18px;
-      background: rgba(13, 17, 26, 0.95);
-      border-bottom: 1px solid var(--border);
-      overflow-x: auto;
-      justify-content: center;
-      scrollbar-width: none;
-    }
-    .showcase-nav::-webkit-scrollbar { display: none; }
-    .showcase-tab {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      color: var(--text-muted);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 7px 16px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+    /* HWBT-Style Continuous Marquee Ticker */
+    .ticker-wrap {
+      width: 100%;
+      overflow: hidden;
+      background: #000000;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 13px 0;
       white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      user-select: none;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+      position: relative;
+      z-index: 2;
     }
-    .showcase-tab:hover { background: rgba(255, 255, 255, 0.09); color: #fff; }
-    .showcase-tab.active {
-      background: linear-gradient(135deg, var(--primary) 0%, #06b6d4 100%);
+    .ticker-move {
+      display: inline-flex;
+      align-items: center;
+      animation: tickerScroll 30s linear infinite;
+    }
+    .ticker-wrap:hover .ticker-move {
+      animation-play-state: paused;
+    }
+    .ticker-item {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #f8fafc;
+      padding: 0 16px;
+    }
+    .ticker-sep {
+      color: #ff3347;
+      font-weight: 900;
+      opacity: 0.85;
+      font-size: 14px;
+    }
+    @keyframes tickerScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Apple TV+ Style Center-Focused Panoramic Showcase */
+    .apple-showcase-section {
+      position: relative;
+      padding: 70px 0 60px;
+      background: radial-gradient(circle at 50% 30%, rgba(30, 38, 58, 0.45) 0%, rgba(7, 9, 15, 0) 70%);
+      overflow: hidden;
+    }
+    .apple-showcase-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 36px;
+      padding: 0 20px;
+    }
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #818cf8;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -1px;
       color: #fff;
-      border-color: transparent;
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+      margin-bottom: 12px;
     }
-    .showcase-image-container {
-      background: #06080e;
-      padding: 12px;
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .apple-stage-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 10px 0 20px;
+      overflow: hidden;
+    }
+    .apple-carousel-track {
+      position: relative;
+      width: 100%;
+      min-height: 520px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      border-radius: 0 0 20px 20px;
-      min-height: 460px;
+      justify-content: center;
+    }
+    .apple-slide {
+      position: absolute;
+      width: clamp(340px, 72vw, 1000px);
+      max-width: 92vw;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #080a12;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.4, 1);
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.85);
+      z-index: 1;
+    }
+    .apple-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+      z-index: 10;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 40px rgba(99, 102, 241, 0.28);
+      border-color: rgba(99, 102, 241, 0.45);
+    }
+    .apple-slide.prev {
+      opacity: 0.42;
+      pointer-events: auto;
+      transform: translateX(-64%) scale(0.88);
+      z-index: 5;
+      cursor: pointer;
+      filter: brightness(0.65);
+    }
+    .apple-slide.next {
+      opacity: 0.42;
+      pointer-events: auto;
+      transform: translateX(64%) scale(0.88);
+      z-index: 5;
+      cursor: pointer;
+      filter: brightness(0.65);
+    }
+    .apple-slide.prev:hover, .apple-slide.next:hover {
+      opacity: 0.72;
+      filter: brightness(0.88);
+    }
+    .apple-slide-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9.6;
+      background: #06080e;
+      overflow: hidden;
+    }
+    .apple-slide-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .apple-slide-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 30px 24px 20px;
+      background: linear-gradient(0deg, rgba(8, 10, 16, 0.96) 0%, rgba(8, 10, 16, 0.75) 55%, rgba(8, 10, 16, 0) 100%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      backdrop-filter: blur(6px);
+    }
+    .apple-slide-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .apple-pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      color: #a5b4fc;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+    .apple-slide-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.4px;
+      margin: 4px 0 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .apple-slide-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      max-width: 580px;
+      line-height: 1.4;
+    }
+    .apple-slide-action {
+      flex-shrink: 0;
+    }
+
+    /* Apple Carousel Navigation Bar */
+    .apple-carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 22px;
+      position: relative;
+      z-index: 12;
+    }
+    .apple-nav-arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      line-height: 1;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .apple-nav-arrow:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: scale(1.08);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+    .apple-dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .apple-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+    }
+    .apple-dot.active {
+      width: 26px;
+      border-radius: 12px;
+      background: #6366f1;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.7);
+    }
+    .apple-play-toggle {
+      background: transparent;
+      border: 0;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 6px;
+      transition: color 0.2s;
+    }
+    .apple-play-toggle:hover {
+      color: #fff;
+    }
+
+    /* Mercedes-Benz Style Editorial About Us Section */
+    .about-section {
+      padding: 100px 0 90px;
+      background: linear-gradient(180deg, rgba(8, 11, 18, 0) 0%, rgba(13, 17, 26, 0.7) 50%, rgba(8, 11, 18, 0) 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
     }
-    .showcase-slide {
-      display: none;
+    .about-header {
+      max-width: 800px;
+      margin-bottom: 50px;
+    }
+    .about-eyebrow {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: #06b6d4;
+      margin-bottom: 10px;
+    }
+    .about-title {
+      font-size: 46px;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      color: #ffffff;
+      margin-bottom: 14px;
+      line-height: 1.15;
+    }
+    .about-sub-title {
+      font-size: 19px;
+      color: #94a3b8;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .about-story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-bottom: 54px;
+    }
+    .about-story-text {
+      color: #cbd5e1;
+      font-size: 15.5px;
+      line-height: 1.8;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .about-lead {
+      font-size: 18px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+    .about-highlight {
+      border-left: 3px solid #6366f1;
+      padding-left: 18px;
+      margin: 8px 0;
+      color: #e2e8f0;
+      font-size: 16px;
+    }
+    .about-highlight em {
+      font-style: italic;
+      color: #c7d2fe;
+    }
+    .about-visual-column {
+      position: relative;
+    }
+    .about-image-card {
+      background: #0d121f;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(6, 182, 212, 0.15);
+      position: relative;
+    }
+    .about-profile-photo {
       width: 100%;
-      text-align: center;
-    }
-    .showcase-slide.active {
-      display: block;
-      animation: fadeInSlide 0.12s ease-out;
-    }
-    @keyframes fadeInSlide {
-      from { opacity: 0.4; }
-      to { opacity: 1; }
-    }
-    .showcase-img {
-      width: 100%;
-      max-width: 1160px;
       height: auto;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9);
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
       display: block;
-      margin: 0 auto;
+      transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+    }
+    .about-image-card:hover .about-profile-photo {
+      transform: scale(1.02);
+    }
+    .about-image-badge {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      background: rgba(8, 11, 18, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    .badge-dot {
+      color: #10b981;
+      font-size: 10px;
+    }
+
+    /* Mercedes-Benz Style Bento Credibility Grid */
+    .about-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .about-metric-card {
+      background: rgba(14, 18, 28, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 30px 26px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-metric-card:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+      transform: translateY(-3px);
+      background: rgba(18, 24, 38, 0.85);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
+    }
+    .metric-icon {
+      font-size: 26px;
+      margin-bottom: 12px;
+    }
+    .metric-number {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.4px;
+      margin-bottom: 4px;
+    }
+    .about-metric-card h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #818cf8;
+      margin-bottom: 8px;
+    }
+    .about-metric-card p {
+      font-size: 13.5px;
+      color: #94a3b8;
+      line-height: 1.55;
     }
 
     /* Billing Toggle (Monthly vs Annual 1-Year) */
@@ -903,7 +1254,15 @@
       .pricing-card.featured { transform: none; }
       .setup-funnel { grid-template-columns: 1fr; gap: 12px; }
       .setup-arrow { transform: rotate(90deg); margin: -4px 0; }
-      .showcase-nav { justify-content: flex-start; }
+      .apple-carousel-track { min-height: 380px; }
+      .apple-slide.prev, .apple-slide.next { display: none; }
+      .apple-slide.active { width: 95vw; }
+      .apple-slide-overlay { flex-direction: column; align-items: flex-start; gap: 10px; padding: 18px 14px; }
+      .apple-slide-title { font-size: 16px; }
+      .apple-slide-desc { font-size: 12px; }
+      .about-story-grid { grid-template-columns: 1fr; gap: 32px; }
+      .about-metrics-grid { grid-template-columns: 1fr; gap: 14px; }
+      .about-title { font-size: 34px; }
     }
   </style>
 </head>
@@ -919,8 +1278,9 @@
         VidaClip
       </a>
       <ul class="nav-links">
+        <li><a href="#showcase">Showcase</a></li>
         <li><a href="#features">Features</a></li>
-        <li><a href="#templates">Templates</a></li>
+        <li><a href="#about">About Us</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
@@ -1005,50 +1365,149 @@
           </button>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Screenshots & Studio Showcase -->
-      <div class="hero-preview" id="templates">
-        <div class="preview-header">
-          <div class="preview-dots"><span></span><span></span><span></span></div>
-          <div class="preview-title" id="showcase-title">VidaClip Studio — 50/50 Podcast Duo Split & Vertical Canvas</div>
-        </div>
+  <!-- HWBT-Style Continuous Marquee Ticker -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-move">
+      <span class="ticker-item">⚡ 100% Private Local Processing</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">🚫 Zero Watermarks Forever</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">🎙️ 50/50 Podcast Duo Split</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">🚀 60FPS Hardware Accelerated</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">▶️ YouTube • 📱 TikTok • 🌐 Facebook Reels</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">🔒 Zero Cloud Uploads</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">⚡ 100% Private Local Processing</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">🚫 Zero Watermarks Forever</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">🎙️ 50/50 Podcast Duo Split</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">🚀 60FPS Hardware Accelerated</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">▶️ YouTube • 📱 TikTok • 🌐 Facebook Reels</span>
+      <span class="ticker-sep">—</span>
+      <span class="ticker-item">🔒 Zero Cloud Uploads</span>
+      <span class="ticker-sep">—</span>
+    </div>
+  </div>
 
-        <!-- Showcase Navigation Tabs -->
-        <div class="showcase-nav">
-          <button class="showcase-tab active" data-shot="1" onclick="switchShowcase(1, 'VidaClip Studio — 50/50 Podcast Duo Split & Vertical Canvas')">
-            🎙️ Desktop Studio
-          </button>
-          <button class="showcase-tab" data-shot="2" onclick="switchShowcase(2, 'YouTube Clipper — Native 1-Click Player Controls')">
-            ▶️ YouTube Clipper
-          </button>
-          <button class="showcase-tab" data-shot="3" onclick="switchShowcase(3, 'TikTok Dynamic Island — Floating Top Clipper')">
-            📱 TikTok Clipper
-          </button>
-          <button class="showcase-tab" data-shot="4" onclick="switchShowcase(4, 'Facebook Reels — Seamless Feed Recording')">
-            🌐 Facebook Reels
-          </button>
-          <button class="showcase-tab" data-shot="5" onclick="switchShowcase(5, 'Extension Controls — 1-Click Quality Selector (1080p, 2K, 4K)')">
-            🧩 Extension Controls
-          </button>
-        </div>
+  <!-- Apple TV+ Style Center-Focused Panoramic Showcase -->
+  <section class="apple-showcase-section" id="showcase">
+    <div class="apple-showcase-header">
+      <span class="section-eyebrow">APPLICATION SHOWCASE</span>
+      <h2 class="section-title">Experience VidaClip in Action</h2>
+      <p class="section-subtitle">From seamless in-browser video clipping to professional desktop podcast reframing.</p>
+    </div>
 
-        <div class="showcase-image-container">
-          <div class="showcase-slide active" id="slide-1">
-            <img src="screenshots/shot_studio.png" alt="VidaClip Desktop Studio" class="showcase-img">
+    <div class="apple-stage-wrapper">
+      <div class="apple-carousel-track" id="apple-carousel-track">
+
+        <!-- Slide 1: Desktop Studio -->
+        <article class="apple-slide active" data-index="0">
+          <div class="apple-slide-img-wrap">
+            <img src="screenshots/shot_studio.png" alt="VidaClip Studio Desktop App" class="apple-slide-img">
+            <div class="apple-slide-overlay">
+              <div class="apple-slide-info">
+                <span class="apple-pill-tag">🎙️ DESKTOP STUDIO</span>
+                <h3 class="apple-slide-title">50/50 Podcast Duo Split & Multi-Cam Timeline</h3>
+                <p class="apple-slide-desc">Dual video tracks, vertical canvas presets, gapless audio transitions, and native 60fps GPU rendering.</p>
+              </div>
+              <div class="apple-slide-action">
+                <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.3/VidaClip-Setup-1.2.3.exe" onclick="openModal('windows')" class="btn btn-primary btn-sm">Download Studio</a>
+              </div>
+            </div>
           </div>
-          <div class="showcase-slide" id="slide-2">
-            <img src="screenshots/shot_youtube.png" alt="YouTube Clipper" class="showcase-img">
+        </article>
+
+        <!-- Slide 2: YouTube Clipper -->
+        <article class="apple-slide next" data-index="1">
+          <div class="apple-slide-img-wrap">
+            <img src="screenshots/shot_youtube.png" alt="YouTube Clipper" class="apple-slide-img">
+            <div class="apple-slide-overlay">
+              <div class="apple-slide-info">
+                <span class="apple-pill-tag">▶️ BROWSER EXTENSION</span>
+                <h3 class="apple-slide-title">YouTube Clipper — Native In-Player Controls</h3>
+                <p class="apple-slide-desc">Integrates directly below the YouTube video player for 1-click precision loop trimming and timestamp capture.</p>
+              </div>
+              <div class="apple-slide-action">
+                <a href="https://microsoftedge.microsoft.com/addons/detail/vidaclip-%E2%80%94-social-video-/dopknhmhkkgmflonchgikmchghnhbkjc" target="_blank" class="btn btn-secondary btn-sm">Add to Edge (Free)</a>
+              </div>
+            </div>
           </div>
-          <div class="showcase-slide" id="slide-3">
-            <img src="screenshots/shot_tiktok.png" alt="TikTok Clipper" class="showcase-img">
+        </article>
+
+        <!-- Slide 3: TikTok Dynamic Island -->
+        <article class="apple-slide" data-index="2">
+          <div class="apple-slide-img-wrap">
+            <img src="screenshots/shot_tiktok.png" alt="TikTok Clipper" class="apple-slide-img">
+            <div class="apple-slide-overlay">
+              <div class="apple-slide-info">
+                <span class="apple-pill-tag">📱 TIKTOK CLIPPER</span>
+                <h3 class="apple-slide-title">TikTok Dynamic Island Controller</h3>
+                <p class="apple-slide-desc">Sleek top widget tracks viral feeds in real-time, letting you grab trending clips without obscuring playback.</p>
+              </div>
+              <div class="apple-slide-action">
+                <a href="https://microsoftedge.microsoft.com/addons/detail/vidaclip-%E2%80%94-social-video-/dopknhmhkkgmflonchgikmchghnhbkjc" target="_blank" class="btn btn-secondary btn-sm">Add to Edge (Free)</a>
+              </div>
+            </div>
           </div>
-          <div class="showcase-slide" id="slide-4">
-            <img src="screenshots/shot_facebook.png" alt="Facebook Reels" class="showcase-img">
+        </article>
+
+        <!-- Slide 4: Facebook Reels -->
+        <article class="apple-slide" data-index="3">
+          <div class="apple-slide-img-wrap">
+            <img src="screenshots/shot_facebook.png" alt="Facebook Reels Clipper" class="apple-slide-img">
+            <div class="apple-slide-overlay">
+              <div class="apple-slide-info">
+                <span class="apple-pill-tag">🌐 FACEBOOK REELS</span>
+                <h3 class="apple-slide-title">Facebook Watch & Reels Grabber</h3>
+                <p class="apple-slide-desc">Clip viral moments and gaming livestreams with instant hardware-accelerated local delivery.</p>
+              </div>
+              <div class="apple-slide-action">
+                <a href="https://microsoftedge.microsoft.com/addons/detail/vidaclip-%E2%80%94-social-video-/dopknhmhkkgmflonchgikmchghnhbkjc" target="_blank" class="btn btn-secondary btn-sm">Add to Edge (Free)</a>
+              </div>
+            </div>
           </div>
-          <div class="showcase-slide" id="slide-5">
-            <img src="screenshots/shot_extension.png" alt="Extension Controls" class="showcase-img">
+        </article>
+
+        <!-- Slide 5: Extension Controls -->
+        <article class="apple-slide prev" data-index="4">
+          <div class="apple-slide-img-wrap">
+            <img src="screenshots/shot_extension.png" alt="Extension Controls Popup" class="apple-slide-img">
+            <div class="apple-slide-overlay">
+              <div class="apple-slide-info">
+                <span class="apple-pill-tag">🧩 QUICK CONTROLS</span>
+                <h3 class="apple-slide-title">Extension Popup — Quality & Queue Hub</h3>
+                <p class="apple-slide-desc">Choose 1080p, 2K, or 4K streams, monitor your active plan, manage local clip slots, and launch Studio in 1-click.</p>
+              </div>
+              <div class="apple-slide-action">
+                <a href="https://microsoftedge.microsoft.com/addons/detail/vidaclip-%E2%80%94-social-video-/dopknhmhkkgmflonchgikmchghnhbkjc" target="_blank" class="btn btn-secondary btn-sm">Add to Edge (Free)</a>
+              </div>
+            </div>
           </div>
+        </article>
+
+      </div>
+
+      <!-- Controls: Prev Arrow • Dots • Next Arrow • Play/Pause -->
+      <div class="apple-carousel-controls">
+        <button class="apple-nav-arrow" id="apple-prev" aria-label="Previous Slide">‹</button>
+        <div class="apple-dots">
+          <span class="apple-dot active" data-dot="0"></span>
+          <span class="apple-dot" data-dot="1"></span>
+          <span class="apple-dot" data-dot="2"></span>
+          <span class="apple-dot" data-dot="3"></span>
+          <span class="apple-dot" data-dot="4"></span>
         </div>
+        <button class="apple-nav-arrow" id="apple-next" aria-label="Next Slide">›</button>
+        <button class="apple-play-toggle" id="apple-play-toggle" title="Pause autoplay" aria-label="Pause Autoplay">⏸</button>
       </div>
     </div>
   </section>
@@ -1091,6 +1550,69 @@
           <div class="card-icon">🚀</div>
           <h3>Zero Watermarks Forever</h3>
           <p>Your content is 100% yours. Clean, crisp 1080p 60fps output ready to publish straight to your channels without any forced branding.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mercedes-Benz Style Editorial About Us Section -->
+  <section class="about-section" id="about">
+    <div class="container">
+      <div class="about-header">
+        <span class="about-eyebrow">THE VIDACLIP PHILOSOPHY</span>
+        <h2 class="about-title">About Us</h2>
+        <p class="about-sub-title">Engineered for creators who value speed, privacy, and uncompromising video fidelity.</p>
+      </div>
+
+      <div class="about-story-grid">
+        <div class="about-story-text">
+          <p class="about-lead">
+            VidaClip was founded on a simple conviction: content creators shouldn't have to compromise between speed, video quality, and data privacy.
+          </p>
+          <p>
+            For years, podcasters, video editors, and social media clipping teams had to endure slow cloud upload queues, aggressive video compression, intrusive pop-up ads, and costly monthly SaaS subscriptions just to split or reframe a short segment from a long-form video.
+          </p>
+          <p class="about-highlight">
+            <em>"Why upload gigabytes of footage to remote cloud servers when your computer already possesses incredible multi-core GPU processing power?"</em>
+          </p>
+          <p>
+            That engineering insight created VidaClip — a zero-compromise local video clipping engine. By bundling high-performance FFmpeg hardware rendering and the modern Deno runtime into a lightweight desktop application and browser companion, VidaClip handles downloads, trimming, 50/50 vertical reframing, and multi-cam sequencing directly on your device.
+          </p>
+          <p>
+            Your video files never leave your computer. There are zero watermarks, zero cloud waitlists, and zero tracking. We engineer the engine so you own the craft.
+          </p>
+        </div>
+
+        <div class="about-visual-column">
+          <div class="about-image-card">
+            <img src="about_profile.jpg" alt="VidaClip Studio Engineering & Creative Workstation" class="about-profile-photo">
+            <div class="about-image-badge">
+              <span class="badge-dot">●</span>
+              <span>Hardware-Accelerated Video Workstation • Jamii's Mind</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mercedes-Benz Inspired Bento Metrics Grid -->
+      <div class="about-metrics-grid">
+        <div class="about-metric-card">
+          <div class="metric-icon">🔒</div>
+          <div class="metric-number">100% Local</div>
+          <h4>Private & Secure</h4>
+          <p>All video downloads, audio processing, and rendering occur locally on 127.0.0.1. No footage is ever uploaded to external servers.</p>
+        </div>
+        <div class="about-metric-card">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-number">60 FPS</div>
+          <h4>Hardware Accelerated</h4>
+          <p>Native GPU encoding delivers instant preview scrubbing and rapid multi-video timeline exports up to 4K resolution.</p>
+        </div>
+        <div class="about-metric-card">
+          <div class="metric-icon">🚫</div>
+          <div class="metric-number">0 Branding</div>
+          <h4>Zero Forced Watermarks</h4>
+          <p>Your video is 100% your intellectual property. Clean, watermark-free output ready for immediate publication across all social feeds.</p>
         </div>
       </div>
     </div>
@@ -1384,19 +1906,112 @@
       });
     }
 
-    // Interactive Showcase Gallery Tab Switcher (Instant 0ms switching)
-    function switchShowcase(shotNum, title) {
-      var titleEl = document.getElementById('showcase-title');
-      if (titleEl) {
-        titleEl.textContent = title;
+    // Apple TV+ Style Panoramic Showcase Carousel
+    (function initAppleCarousel() {
+      var slides = Array.from(document.querySelectorAll('.apple-slide'));
+      var dots = Array.from(document.querySelectorAll('.apple-dot'));
+      var prevBtn = document.getElementById('apple-prev');
+      var nextBtn = document.getElementById('apple-next');
+      var playBtn = document.getElementById('apple-play-toggle');
+      var track = document.getElementById('apple-carousel-track');
+      var currentIndex = 0;
+      var total = slides.length;
+      var autoTimer = null;
+      var isPlaying = true;
+
+      function updateSlides() {
+        slides.forEach(function(slide, idx) {
+          slide.classList.remove('active', 'prev', 'next');
+          if (idx === currentIndex) {
+            slide.classList.add('active');
+          } else if (idx === (currentIndex - 1 + total) % total) {
+            slide.classList.add('prev');
+          } else if (idx === (currentIndex + 1) % total) {
+            slide.classList.add('next');
+          }
+        });
+
+        dots.forEach(function(dot, idx) {
+          dot.classList.toggle('active', idx === currentIndex);
+        });
       }
-      document.querySelectorAll('.showcase-tab').forEach(function(tab) {
-        tab.classList.toggle('active', tab.getAttribute('data-shot') == shotNum);
+
+      function goToSlide(index) {
+        currentIndex = (index + total) % total;
+        updateSlides();
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+
+      if (prevBtn) prevBtn.onclick = function() { prevSlide(); resetTimer(); };
+      if (nextBtn) nextBtn.onclick = function() { nextSlide(); resetTimer(); };
+
+      dots.forEach(function(dot, idx) {
+        dot.onclick = function() {
+          goToSlide(idx);
+          resetTimer();
+        };
       });
-      document.querySelectorAll('.showcase-slide').forEach(function(slide) {
-        slide.classList.toggle('active', slide.id === 'slide-' + shotNum);
+
+      slides.forEach(function(slide, idx) {
+        slide.onclick = function(e) {
+          if (e.target.closest('.apple-slide-action')) return;
+          if (slide.classList.contains('prev') || slide.classList.contains('next')) {
+            goToSlide(idx);
+            resetTimer();
+          }
+        };
       });
-    }
+
+      function startTimer() {
+        if (autoTimer) clearInterval(autoTimer);
+        if (isPlaying) {
+          autoTimer = setInterval(nextSlide, 5000);
+        }
+      }
+
+      function resetTimer() {
+        startTimer();
+      }
+
+      if (playBtn) {
+        playBtn.onclick = function() {
+          isPlaying = !isPlaying;
+          playBtn.textContent = isPlaying ? '⏸' : '▶';
+          playBtn.setAttribute('title', isPlaying ? 'Pause autoplay' : 'Start autoplay');
+          if (isPlaying) startTimer();
+          else if (autoTimer) clearInterval(autoTimer);
+        };
+      }
+
+      if (track) {
+        track.addEventListener('mouseenter', function() {
+          if (autoTimer) clearInterval(autoTimer);
+        });
+        track.addEventListener('mouseleave', function() {
+          if (isPlaying) startTimer();
+        });
+      }
+
+      // Keyboard arrow control when showcase is near view
+      document.addEventListener('keydown', function(e) {
+        if (!track) return;
+        var rect = track.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          if (e.key === 'ArrowLeft') { prevSlide(); resetTimer(); }
+          else if (e.key === 'ArrowRight') { nextSlide(); resetTimer(); }
+        }
+      });
+
+      updateSlides();
+      startTimer();
+    })();
 
     // Billing Toggle: Monthly vs 1-Year (Annual)
     var isYearly = false;
