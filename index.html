@@ -840,25 +840,27 @@
       width: 100%;
       max-width: 1400px;
       margin: 0 auto;
-      padding: 10px 0 20px;
+      padding: 30px 0 20px;
       overflow: hidden;
     }
     .apple-carousel-track {
       position: relative;
       width: 100%;
-      min-height: 520px;
+      min-height: 660px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
+      padding-top: 10px;
     }
     .apple-slide {
       position: absolute;
+      top: 10px;
       width: clamp(340px, 72vw, 1000px);
       max-width: 92vw;
       border-radius: 20px;
       overflow: hidden;
       background: #080a12;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
       transition: all 0.5s cubic-bezier(0.25, 1, 0.4, 1);
       opacity: 0;
@@ -871,8 +873,8 @@
       pointer-events: auto;
       transform: translateX(0) scale(1);
       z-index: 10;
-      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 40px rgba(99, 102, 241, 0.28);
-      border-color: rgba(99, 102, 241, 0.45);
+      box-shadow: 0 30px 85px rgba(0, 0, 0, 0.95), 0 0 45px rgba(99, 102, 241, 0.32);
+      border-color: rgba(99, 102, 241, 0.5);
     }
     .apple-slide.prev {
       opacity: 0.42;
@@ -894,6 +896,53 @@
       opacity: 0.72;
       filter: brightness(0.88);
     }
+    .apple-slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      background: #0b0e18;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      user-select: none;
+    }
+    .apple-window-dots {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .apple-window-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .apple-window-dots span:nth-child(1) { background: #ef4444; }
+    .apple-window-dots span:nth-child(2) { background: #eab308; }
+    .apple-window-dots span:nth-child(3) { background: #22c55e; }
+    .apple-window-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      color: #64748b;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 8px;
+      flex: 1;
+      text-align: center;
+    }
+    .apple-window-tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 4px;
+      padding: 2px 7px;
+      letter-spacing: 0.5px;
+    }
     .apple-slide-img-wrap {
       position: relative;
       width: 100%;
@@ -905,6 +954,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: top center;
       display: block;
     }
     .apple-slide-overlay {
@@ -912,13 +962,13 @@
       bottom: 0;
       left: 0;
       right: 0;
-      padding: 30px 24px 20px;
-      background: linear-gradient(0deg, rgba(8, 10, 16, 0.96) 0%, rgba(8, 10, 16, 0.75) 55%, rgba(8, 10, 16, 0) 100%);
+      padding: 26px 24px 18px;
+      background: linear-gradient(0deg, rgba(8, 10, 16, 0.98) 0%, rgba(8, 10, 16, 0.82) 60%, rgba(8, 10, 16, 0) 100%);
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
       gap: 16px;
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
     }
     .apple-slide-info {
       display: flex;
@@ -961,19 +1011,31 @@
       flex-shrink: 0;
     }
 
-    /* Apple Carousel Navigation Bar */
-    .apple-carousel-controls {
+    /* Apple Carousel Navigation Bar (Floating Capsule Below Track) */
+    .apple-controls-wrap {
       display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 18px;
-      margin-top: 22px;
+      align-items: center;
+      margin-top: 40px;
       position: relative;
-      z-index: 12;
+      z-index: 25;
+      clear: both;
+    }
+    .apple-carousel-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 22px;
+      background: rgba(14, 18, 30, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(99, 102, 241, 0.18);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
     .apple-nav-arrow {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -982,7 +1044,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 20px;
       line-height: 1;
       transition: all 0.2s ease;
       user-select: none;
@@ -1254,7 +1316,7 @@
       .pricing-card.featured { transform: none; }
       .setup-funnel { grid-template-columns: 1fr; gap: 12px; }
       .setup-arrow { transform: rotate(90deg); margin: -4px 0; }
-      .apple-carousel-track { min-height: 380px; }
+      .apple-carousel-track { min-height: 480px; }
       .apple-slide.prev, .apple-slide.next { display: none; }
       .apple-slide.active { width: 95vw; }
       .apple-slide-overlay { flex-direction: column; align-items: flex-start; gap: 10px; padding: 18px 14px; }
@@ -1411,6 +1473,13 @@
 
         <!-- Slide 1: Desktop Studio -->
         <article class="apple-slide active" data-index="0">
+          <div class="apple-slide-header">
+            <div class="apple-window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="apple-window-title">VIDACLIP STUDIO • 50/50 MULTI-CAM TIMELINE</div>
+            <div class="apple-window-tag">60 FPS GPU</div>
+          </div>
           <div class="apple-slide-img-wrap">
             <img src="screenshots/shot_studio.png" alt="VidaClip Studio Desktop App" class="apple-slide-img">
             <div class="apple-slide-overlay">
@@ -1428,6 +1497,13 @@
 
         <!-- Slide 2: YouTube Clipper -->
         <article class="apple-slide next" data-index="1">
+          <div class="apple-slide-header">
+            <div class="apple-window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="apple-window-title">VIDACLIP EXTENSION • YOUTUBE IN-PLAYER CONTROLS</div>
+            <div class="apple-window-tag">BROWSER COMPANION</div>
+          </div>
           <div class="apple-slide-img-wrap">
             <img src="screenshots/shot_youtube.png" alt="YouTube Clipper" class="apple-slide-img">
             <div class="apple-slide-overlay">
@@ -1445,6 +1521,13 @@
 
         <!-- Slide 3: TikTok Dynamic Island -->
         <article class="apple-slide" data-index="2">
+          <div class="apple-slide-header">
+            <div class="apple-window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="apple-window-title">VIDACLIP EXTENSION • TIKTOK FLOATING CONTROLLER</div>
+            <div class="apple-window-tag">VIRAL REEL CLIPPER</div>
+          </div>
           <div class="apple-slide-img-wrap">
             <img src="screenshots/shot_tiktok.png" alt="TikTok Clipper" class="apple-slide-img">
             <div class="apple-slide-overlay">
@@ -1462,6 +1545,13 @@
 
         <!-- Slide 4: Facebook Reels -->
         <article class="apple-slide" data-index="3">
+          <div class="apple-slide-header">
+            <div class="apple-window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="apple-window-title">VIDACLIP EXTENSION • FACEBOOK WATCH & REELS</div>
+            <div class="apple-window-tag">LIVESTREAM CLIPPER</div>
+          </div>
           <div class="apple-slide-img-wrap">
             <img src="screenshots/shot_facebook.png" alt="Facebook Reels Clipper" class="apple-slide-img">
             <div class="apple-slide-overlay">
@@ -1479,6 +1569,13 @@
 
         <!-- Slide 5: Extension Controls -->
         <article class="apple-slide prev" data-index="4">
+          <div class="apple-slide-header">
+            <div class="apple-window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="apple-window-title">VIDACLIP EXTENSION • QUALITY & PIPELINE HUB</div>
+            <div class="apple-window-tag">INSTANT TRIGGER</div>
+          </div>
           <div class="apple-slide-img-wrap">
             <img src="screenshots/shot_extension.png" alt="Extension Controls Popup" class="apple-slide-img">
             <div class="apple-slide-overlay">
@@ -1497,17 +1594,19 @@
       </div>
 
       <!-- Controls: Prev Arrow • Dots • Next Arrow • Play/Pause -->
-      <div class="apple-carousel-controls">
-        <button class="apple-nav-arrow" id="apple-prev" aria-label="Previous Slide">‹</button>
-        <div class="apple-dots">
-          <span class="apple-dot active" data-dot="0"></span>
-          <span class="apple-dot" data-dot="1"></span>
-          <span class="apple-dot" data-dot="2"></span>
-          <span class="apple-dot" data-dot="3"></span>
-          <span class="apple-dot" data-dot="4"></span>
+      <div class="apple-controls-wrap">
+        <div class="apple-carousel-controls">
+          <button class="apple-nav-arrow" id="apple-prev" aria-label="Previous Slide">‹</button>
+          <div class="apple-dots">
+            <span class="apple-dot active" data-dot="0"></span>
+            <span class="apple-dot" data-dot="1"></span>
+            <span class="apple-dot" data-dot="2"></span>
+            <span class="apple-dot" data-dot="3"></span>
+            <span class="apple-dot" data-dot="4"></span>
+          </div>
+          <button class="apple-nav-arrow" id="apple-next" aria-label="Next Slide">›</button>
+          <button class="apple-play-toggle" id="apple-play-toggle" title="Pause autoplay" aria-label="Pause Autoplay">⏸</button>
         </div>
-        <button class="apple-nav-arrow" id="apple-next" aria-label="Next Slide">›</button>
-        <button class="apple-play-toggle" id="apple-play-toggle" title="Pause autoplay" aria-label="Pause Autoplay">⏸</button>
       </div>
     </div>
   </section>
@@ -1919,6 +2018,17 @@
       var autoTimer = null;
       var isPlaying = true;
 
+      function updateTrackHeight() {
+        if (!track) return;
+        var active = track.querySelector('.apple-slide.active');
+        if (active) {
+          var h = active.offsetHeight;
+          if (h > 0) {
+            track.style.minHeight = (h + 24) + 'px';
+          }
+        }
+      }
+
       function updateSlides() {
         slides.forEach(function(slide, idx) {
           slide.classList.remove('active', 'prev', 'next');
@@ -1934,6 +2044,8 @@
         dots.forEach(function(dot, idx) {
           dot.classList.toggle('active', idx === currentIndex);
         });
+
+        requestAnimationFrame(updateTrackHeight);
       }
 
       function goToSlide(index) {
@@ -2009,8 +2121,11 @@
         }
       });
 
+      window.addEventListener('resize', updateTrackHeight);
+      window.addEventListener('load', updateTrackHeight);
       updateSlides();
       startTimer();
+      setTimeout(updateTrackHeight, 150);
     })();
 
     // Billing Toggle: Monthly vs 1-Year (Annual)
