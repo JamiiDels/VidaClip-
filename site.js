@@ -1,3 +1,25 @@
+const windowsDownloads = [...document.querySelectorAll("[data-windows-download]")];
+if (windowsDownloads.length) {
+  fetch("https://api.github.com/repos/JamiiDels/VidaClip-/releases/latest", {
+    signal: AbortSignal.timeout(4000)
+  }).then(response => response.ok ? response.json() : null).then(release => {
+    const tag = release?.tag_name;
+    if (!/^v\d+\.\d+\.\d+$/.test(tag) || !Array.isArray(release.assets)) return;
+    const versionLabel = document.querySelector("[data-windows-version]");
+    const publishedTag = versionLabel.textContent.split(" ")[0];
+    if (tag.localeCompare(publishedTag, "en", { numeric: true }) < 0) return;
+    const filename = "VidaClip-Setup-" + tag.slice(1) + ".exe";
+    const installerUrl = "https://github.com/JamiiDels/VidaClip-/releases/download/" + tag + "/" + filename;
+    const setup = release.assets.find(asset => asset.name === filename
+      && asset.browser_download_url === installerUrl && /^sha256:[0-9a-f]{64}$/.test(asset.digest));
+    if (!setup) return;
+    for (const link of windowsDownloads) link.href = installerUrl;
+    versionLabel.textContent = tag + " Early Access";
+  }).catch(() => {
+    // The published Setup link in the page is available when the release lookup fails.
+  });
+}
+
 const workflow = document.querySelector("[data-workflow]");
 if (workflow) {
   const topics = {
@@ -12,7 +34,7 @@ if (workflow) {
       { id: "options", label: "Clip options", image: "clip-options", alt: "Saved clip with a quality menu and Download clip and Edit in Studio options", heading: "Choose what to do with the clip.", description: "Rename it, select a quality, download it through Desktop, or open the edit in Studio." }
     ],
     cleanup: [
-      { id: "choose", label: "Choose files", image: "cleanup", alt: "AI Label Remover tab with the image and video drop area", heading: "Drop in photos or videos.", description: "Open AI Label Remover in the extension preview, or use Remove all AI Labels in Desktop." },
+      { id: "choose", label: "Choose files", image: "cleanup", alt: "AI Label Remover and its image and video drop area", heading: "Drop in photos or videos.", description: "Open Remove all AI Labels in the Desktop Workspace." },
       { id: "process", label: "Clean metadata", image: "cleanup", alt: "AI Label Remover controls and supported metadata", heading: "Clean supported embedded metadata.", description: "VidaClip runs the cleanup locally and saves new copies. A batch can include photos and videos." },
       { id: "results", label: "Check results", image: "cleanup", alt: "AI Label Remover panel with its usage information", heading: "Check the cleanup in Desktop.", description: "The Activity Stream shows detected markers and the result for each file." }
     ],
@@ -22,7 +44,7 @@ if (workflow) {
       { id: "place", label: "Add to timeline", image: "speech-track", alt: "Spoken intro on its own Studio timeline track", heading: "Place the narration on a track.", description: "Move the voiceover to match the edit, then export it with the rest of the project." }
     ],
     download: [
-      { id: "paste", label: "Paste the URL", image: "download", alt: "Downloader link field with a sample video URL", heading: "Save a video from a link.", description: "Paste an individual video link in Desktop. The updated extension also offers a Downloader tab." },
+      { id: "paste", label: "Paste the URL", image: "download", alt: "Downloader link field with a sample video URL", heading: "Save a video from a link.", description: "Paste an individual video link in the Desktop Workspace." },
       { id: "quality", label: "Choose quality", image: "download", alt: "Video Downloader with the 1080p quality setting", heading: "Pick the quality before downloading.", description: "Choose Auto or a resolution. Available quality depends on the source." },
       { id: "library", label: "Find your video", image: "clip-options", alt: "A saved video with its MP4 filename and Studio edit option", heading: "Open the result from Clips.", description: "Keep track of the download in Desktop’s Activity Stream and use the saved video in Studio." }
     ],
