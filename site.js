@@ -1,21 +1,74 @@
+const workflow = document.querySelector("[data-workflow]");
+if (workflow) {
+  const steps = [
+    { id: "link", heading: "Start with a video link.", description: "Paste it into the Desktop Workspace." },
+    { id: "clip", heading: "Get editable highlights.", description: "Choose the clip length, captions, and whether to trim long pauses." },
+    { id: "studio", heading: "Finish the short in Studio.", description: "Adjust the cut, captions, and audio, then export on your PC." }
+  ];
+  const choices = workflow.querySelector(".workflow-choices");
+  const buttons = [...choices.querySelectorAll("[data-demo-step]")];
+  const toggle = workflow.querySelector("[data-demo-toggle]");
+  const heading = workflow.querySelector("[data-demo-heading]");
+  const description = workflow.querySelector("[data-demo-description]");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let selected = 0;
+  let timer;
+
+  function renderStep(index) {
+    selected = index;
+    const step = steps[index];
+    workflow.dataset.step = step.id;
+    heading.textContent = step.heading;
+    description.textContent = step.description;
+    for (const button of buttons) {
+      button.setAttribute("aria-pressed", String(button.dataset.demoStep === step.id));
+    }
+  }
+
+  function setPlaying(playing) {
+    window.clearInterval(timer);
+    timer = playing ? window.setInterval(() => {
+      if (!document.hidden && workflow.getBoundingClientRect().bottom > 0) {
+        renderStep((selected + 1) % steps.length);
+      }
+    }, 4000) : undefined;
+    toggle.textContent = playing ? "Pause" : "Play";
+  }
+
+  for (const [index, button] of buttons.entries()) {
+    button.addEventListener("click", () => {
+      setPlaying(false);
+      renderStep(index);
+    });
+  }
+  toggle.addEventListener("click", () => setPlaying(timer === undefined));
+  reducedMotion.addEventListener("change", () => setPlaying(!reducedMotion.matches));
+  choices.hidden = false;
+  toggle.hidden = false;
+  setPlaying(!reducedMotion.matches);
+}
+
 const studioTour = document.querySelector("[data-studio-tour]");
 
 if (studioTour) {
   const previews = {
     timeline: {
       image: "assets/studio-timeline.webp",
-      alt: "VidaClip Studio with a portrait preview, a transform inspector, and several editable timeline tracks",
-      caption: "An Auto Clip draft opened in Studio with separate video, caption, and audio clips."
+      alt: "A sample hiking short open in Studio with a portrait preview above video, caption, and audio tracks",
+      caption: "A sample short in Studio with separate tracks for video, captions, and audio.",
+      width: 1536, height: 960
     },
     projects: {
       image: "assets/studio-projects.webp",
       alt: "Studio Editor home with a red Create project button, saved projects, and clips from the downloads folder",
-      caption: "Create a blank project, reopen an edit, or start with a clip from your downloads."
+      caption: "Create a blank project, reopen an edit, or start with a clip from your downloads.",
+      width: 1220, height: 780
     },
     speech: {
       image: "assets/studio-speech.webp",
-      alt: "VidaClip Studio showing editable captions and voice clips on the timeline",
-      caption: "Work with captions and spoken audio on their own tracks."
+      alt: "The Captions panel in Studio with a portrait hiking short and caption and spoken audio tracks",
+      caption: "Work with captions and spoken audio on their own tracks.",
+      width: 1536, height: 960
     }
   };
   const tourButtons = [...studioTour.querySelectorAll("[data-preview]")];
@@ -30,6 +83,8 @@ if (studioTour) {
         option.setAttribute("aria-pressed", String(option === button));
       }
       photo.alt = preview.alt;
+      photo.width = preview.width;
+      photo.height = preview.height;
       photo.src = preview.image;
       link.href = preview.image;
       link.dataset.screenshotTitle = button.textContent.trim();
