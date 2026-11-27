@@ -1,2220 +1,348 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VidaClip — Turn Any Long Video Into Viral Shorts & Reels</title>
-  <meta name="description" content="AI-assisted video reframing, 50/50 podcast splits, and triple stack templates with 100% local hardware-accelerated exports. Zero watermarks, zero cloud delays.">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#131214">
+  <meta name="description" content="Turn a video into vertical highlights with VidaClip Auto Clip, then finish the edit on a layered timeline in Studio for Windows.">
+  <meta property="og:title" content="VidaClip — From long video to short story">
+  <meta property="og:description" content="Find highlights, cut the quiet, and make the edit yours. Auto Clip and Studio for Windows.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://jamiidels.github.io/VidaClip-/assets/field-notes.webp">
+  <title>VidaClip — From long video to short story</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="site.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #07090e;
-      --bg-surface: #0e121b;
-      --bg-card: rgba(18, 24, 38, 0.7);
-      --border: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(99, 102, 241, 0.35);
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --primary-glow: rgba(99, 102, 241, 0.4);
-      --accent: #06b6d4;
-      --emerald: #10b981;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      --mono: 'JetBrains Mono', monospace;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--font);
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Ambient background glows */
-    .glow-bg {
-      position: fixed;
-      top: -20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1000px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(6, 182, 212, 0.1) 40%, rgba(7, 9, 14, 0) 70%);
-      filter: blur(80px);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .container {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 0 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Header */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(7, 9, 14, 0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 72px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: #fff;
-      font-weight: 800;
-      font-size: 20px;
-      letter-spacing: -0.5px;
-    }
-    .brand img {
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
-      box-shadow: 0 0 16px var(--primary-glow);
-    }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      align-items: center;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: #fff; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      cursor: pointer;
-      border: 1px solid transparent;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, #4338ca 100%);
-      color: #fff;
-      box-shadow: 0 4px 20px var(--primary-glow);
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 28px rgba(99, 102, 241, 0.6);
-    }
-    .btn-secondary {
-      background: var(--bg-card);
-      border-color: var(--border);
-      color: #fff;
-      backdrop-filter: blur(10px);
-    }
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Hero */
-    .hero {
-      padding: 90px 0 60px;
-      text-align: center;
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(99, 102, 241, 0.12);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      padding: 6px 16px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #a5b4fc;
-      margin-bottom: 24px;
-    }
-    .hero h1 {
-      font-size: clamp(38px, 6vw, 68px);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      margin-bottom: 24px;
-    }
-    .gradient-text {
-      background: linear-gradient(135deg, #fff 20%, #a5b4fc 70%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero p {
-      max-width: 680px;
-      margin: 0 auto 36px;
-      font-size: 18px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-    .hero-actions {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 48px;
-    }
-    .btn-lg {
-      padding: 15px 32px;
-      font-size: 16px;
-      border-radius: 12px;
-    }
-
-    /* Showcase preview frame */
-    .hero-preview {
-      max-width: 940px;
-      margin: 0 auto;
-      border-radius: 20px;
-      background: var(--bg-surface);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 40px rgba(99, 102, 241, 0.2);
-      overflow: hidden;
-      position: relative;
-    }
-    .preview-header {
-      background: #090c14;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-    .preview-dots {
-      display: flex;
-      gap: 6px;
-    }
-    .preview-dots span {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #334155;
-    }
-    .preview-dots span:nth-child(1) { background: #ef4444; }
-    .preview-dots span:nth-child(2) { background: #eab308; }
-    .preview-dots span:nth-child(3) { background: #22c55e; }
-    .preview-title {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .preview-stage {
-      padding: 40px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      background: radial-gradient(circle at center, #151b29 0%, #090c14 100%);
-    }
-    .phone-mockup {
-      width: 260px;
-      height: 480px;
-      background: #000;
-      border-radius: 36px;
-      border: 6px solid #2a334a;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
-      overflow: hidden;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-    .mockup-half {
-      flex: 1;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background-size: cover;
-      background-position: center;
-    }
-    .mockup-half:first-child {
-      border-bottom: 2px solid #6366f1;
-      background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%);
-    }
-    .mockup-half:last-child {
-      background: linear-gradient(180deg, #064e3b 0%, #065f46 100%);
-    }
-    .mockup-tag {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(6px);
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 10px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.5px;
-    }
-    .mockup-overlay-safe {
-      position: absolute;
-      inset: 0;
-      border: 1px dashed rgba(255, 255, 255, 0.25);
-      pointer-events: none;
-    }
-    .preview-features {
-      max-width: 440px;
-      text-align: left;
-    }
-    .preview-features h3 {
-      font-size: 26px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
-    }
-    .preview-features p {
-      color: var(--text-muted);
-      font-size: 15px;
-      margin-bottom: 20px;
-    }
-    .feature-check {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .feature-check li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-    .check-icon {
-      width: 20px;
-      height: 20px;
-      background: rgba(16, 185, 129, 0.15);
-      color: #10b981;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    /* Feature Grid */
-    .features-section {
-      padding: 100px 0;
-    }
-    .section-header {
-      text-align: center;
-      max-width: 640px;
-      margin: 0 auto 60px;
-    }
-    .section-header h2 {
-      font-size: 38px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 16px;
-    }
-    .section-header p {
-      color: var(--text-muted);
-      font-size: 16px;
-    }
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-    }
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 32px;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      backdrop-filter: blur(14px);
-      position: relative;
-      overflow: hidden;
-    }
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: var(--border-glow);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    }
-    .card-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: rgba(99, 102, 241, 0.12);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      margin-bottom: 20px;
-      color: #a5b4fc;
-    }
-    .card h3 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -0.3px;
-    }
-    .card p {
-      color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    /* Pricing */
-    .pricing-section {
-      padding: 100px 0;
-      background: linear-gradient(180deg, rgba(7, 9, 14, 0) 0%, rgba(14, 18, 27, 0.6) 100%);
-    }
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      align-items: stretch;
-    }
-    .pricing-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 36px 28px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      transition: all 0.25s ease;
-    }
-    .pricing-card:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-    .pricing-card.featured {
-      border: 2px solid var(--primary);
-      box-shadow: 0 0 40px var(--primary-glow);
-      transform: scale(1.03);
-      background: linear-gradient(180deg, #131726 0%, #0e121b 100%);
-    }
-    .featured-badge {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--primary) 0%, #06b6d4 100%);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 4px 14px;
-      border-radius: 999px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    .plan-name {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .plan-price {
-      font-size: 40px;
-      font-weight: 800;
-      margin-bottom: 4px;
-      letter-spacing: -1px;
-    }
-    .plan-price span {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-muted);
-    }
-    .plan-desc {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-bottom: 24px;
-      min-height: 40px;
-    }
-    .plan-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 32px;
-      flex: 1;
-    }
-    .plan-features li {
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #cbd5e1;
-    }
-    .plan-features li span {
-      color: var(--emerald);
-      font-weight: bold;
-    }
-
-    /* FAQ */
-    .faq-section {
-      padding: 80px 0 100px;
-    }
-    .faq-grid {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .faq-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px;
-    }
-    .faq-item h4 {
-      font-size: 17px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .faq-item p {
-      color: var(--text-muted);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 60px 0 40px;
-      background: #04060a;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-    .footer-wrap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
-    .footer-links {
-      display: flex;
-      gap: 24px;
-    }
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: #fff; }
-
-    /* Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-    .modal-overlay.active { display: flex; }
-    .modal-box {
-      background: #0e131f;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      max-width: 640px;
-      width: 100%;
-      max-height: 80vh;
-      overflow-y: auto;
-      padding: 32px;
-      position: relative;
-    }
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 24px;
-      cursor: pointer;
-    }
-    .modal-box h3 { margin-bottom: 16px; font-size: 22px; }
-    .modal-box p { color: var(--text-muted); font-size: 14px; margin-bottom: 12px; }
-
-    /* Centered Hero CTA Suite */
-    .hero-center-cta {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      margin: 36px auto 28px;
-      max-width: 680px;
-    }
-    .cta-button-group {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-    .btn-hero-lg {
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 30px;
-      border-radius: 14px;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-    .btn-edge-primary {
-      background: linear-gradient(135deg, #0078d4 0%, #00bcf2 50%, #10b981 100%);
-      background-size: 200% 200%;
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 10px 35px rgba(0, 188, 242, 0.4), 0 0 20px rgba(16, 185, 129, 0.25);
-    }
-    .btn-edge-primary:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 16px 45px rgba(0, 188, 242, 0.55), 0 0 30px rgba(16, 185, 129, 0.4);
-      background-position: 100% 100%;
-    }
-    .btn-text-wrap {
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-      line-height: 1.25;
-    }
-    .btn-main-text {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.2px;
-    }
-    .btn-sub-text {
-      font-size: 11.5px;
-      font-weight: 500;
-      opacity: 0.85;
-      letter-spacing: 0.2px;
-    }
-    .hero-trust-badges {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      font-size: 12.5px;
-      color: var(--text-muted);
-      font-weight: 500;
-      margin-top: 4px;
-    }
-    .hero-trust-badges span:nth-child(even) {
-      color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Desktop Companion Studio Card */
-    .desktop-companion-card {
-      background: rgba(14, 18, 28, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(16px);
-      border-radius: 16px;
-      padding: 16px 24px;
-      margin: 0 auto 36px;
-      max-width: 860px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
-      transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-    .desktop-companion-card:hover {
-      border-color: rgba(99, 102, 241, 0.35);
-      transform: translateY(-1px);
-    }
-    .desktop-card-info {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      text-align: left;
-    }
-    .desktop-card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: rgba(99, 102, 241, 0.15);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #818cf8;
-      flex-shrink: 0;
-    }
-    .desktop-card-text h4 {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      margin: 0 0 2px;
-    }
-    .desktop-card-text p {
-      font-size: 12.5px;
-      color: var(--text-muted);
-      margin: 0;
-      line-height: 1.4;
-    }
-    .desktop-tag {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      padding: 2px 7px;
-      border-radius: 4px;
-      background: rgba(99, 102, 241, 0.2);
-      color: #a5b4fc;
-      margin-bottom: 4px;
-    }
-    .desktop-card-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .btn-ghost {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-    }
-    .btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--text);
-    }
-    .btn-link {
-      background: none;
-      border: none;
-      color: #38bdf8;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: underline;
-      padding: 6px 10px;
-    }
-    .btn-link:hover {
-      color: #7dd3fc;
-    }
-
-    /* Browser Selection Tabs */
-    .browser-nav {
-      display: flex;
-      gap: 8px;
-      margin: 18px 0 16px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 12px;
-      overflow-x: auto;
-    }
-    .browser-tab {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text-muted);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      transition: all 0.2s;
-    }
-    .browser-tab:hover { background: rgba(255, 255, 255, 0.1); color: var(--text); }
-    .browser-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .browser-pane { display: none; }
-    .browser-pane.active { display: block; animation: fadeIn 0.2s ease-in-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* HWBT-Style Continuous Marquee Ticker */
-    .ticker-wrap {
-      width: 100%;
-      overflow: hidden;
-      background: #000000;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 13px 0;
-      white-space: nowrap;
-      user-select: none;
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
-      position: relative;
-      z-index: 2;
-    }
-    .ticker-move {
-      display: inline-flex;
-      align-items: center;
-      animation: tickerScroll 30s linear infinite;
-    }
-    .ticker-wrap:hover .ticker-move {
-      animation-play-state: paused;
-    }
-    .ticker-item {
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: #f8fafc;
-      padding: 0 16px;
-    }
-    .ticker-sep {
-      color: #ff3347;
-      font-weight: 900;
-      opacity: 0.85;
-      font-size: 14px;
-    }
-    @keyframes tickerScroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    /* Apple TV+ Style Center-Focused Panoramic Showcase */
-    .apple-showcase-section {
-      position: relative;
-      padding: 70px 0 60px;
-      background: radial-gradient(circle at 50% 30%, rgba(30, 38, 58, 0.45) 0%, rgba(7, 9, 15, 0) 70%);
-      overflow: hidden;
-    }
-    .apple-showcase-header {
-      text-align: center;
-      max-width: 720px;
-      margin: 0 auto 36px;
-      padding: 0 20px;
-    }
-    .section-eyebrow {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: #818cf8;
-      margin-bottom: 10px;
-    }
-    .section-title {
-      font-size: 38px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      color: #fff;
-      margin-bottom: 12px;
-    }
-    .section-subtitle {
-      color: var(--text-muted);
-      font-size: 16px;
-      line-height: 1.5;
-    }
-
-    .apple-stage-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 30px 0 20px;
-      overflow: hidden;
-    }
-    .apple-carousel-track {
-      position: relative;
-      width: 100%;
-      min-height: 660px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 10px;
-    }
-    .apple-slide {
-      position: absolute;
-      top: 10px;
-      width: clamp(340px, 72vw, 1000px);
-      max-width: 92vw;
-      border-radius: 20px;
-      overflow: hidden;
-      background: #080a12;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
-      transition: all 0.5s cubic-bezier(0.25, 1, 0.4, 1);
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.85);
-      z-index: 1;
-    }
-    .apple-slide.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateX(0) scale(1);
-      z-index: 10;
-      box-shadow: 0 30px 85px rgba(0, 0, 0, 0.95), 0 0 45px rgba(99, 102, 241, 0.32);
-      border-color: rgba(99, 102, 241, 0.5);
-    }
-    .apple-slide.prev {
-      opacity: 0.42;
-      pointer-events: auto;
-      transform: translateX(-64%) scale(0.88);
-      z-index: 5;
-      cursor: pointer;
-      filter: brightness(0.65);
-    }
-    .apple-slide.next {
-      opacity: 0.42;
-      pointer-events: auto;
-      transform: translateX(64%) scale(0.88);
-      z-index: 5;
-      cursor: pointer;
-      filter: brightness(0.65);
-    }
-    .apple-slide.prev:hover, .apple-slide.next:hover {
-      opacity: 0.72;
-      filter: brightness(0.88);
-    }
-    .apple-slide-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 18px;
-      background: #0b0e18;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      user-select: none;
-    }
-    .apple-window-dots {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .apple-window-dots span {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-    .apple-window-dots span:nth-child(1) { background: #ef4444; }
-    .apple-window-dots span:nth-child(2) { background: #eab308; }
-    .apple-window-dots span:nth-child(3) { background: #22c55e; }
-    .apple-window-title {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.8px;
-      color: #64748b;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding: 0 8px;
-      flex: 1;
-      text-align: center;
-    }
-    .apple-window-tag {
-      font-size: 10px;
-      font-weight: 700;
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      border-radius: 4px;
-      padding: 2px 7px;
-      letter-spacing: 0.5px;
-    }
-    .apple-slide-img-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9.6;
-      background: #06080e;
-      overflow: hidden;
-    }
-    .apple-slide-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
-      display: block;
-    }
-    .apple-slide-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 26px 24px 18px;
-      background: linear-gradient(0deg, rgba(8, 10, 16, 0.98) 0%, rgba(8, 10, 16, 0.82) 60%, rgba(8, 10, 16, 0) 100%);
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
-      backdrop-filter: blur(8px);
-    }
-    .apple-slide-info {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      min-width: 0;
-    }
-    .apple-pill-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 999px;
-      padding: 3px 10px;
-      font-size: 10.5px;
-      font-weight: 800;
-      letter-spacing: 0.6px;
-      color: #a5b4fc;
-      text-transform: uppercase;
-      width: fit-content;
-    }
-    .apple-slide-title {
-      font-size: 20px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.4px;
-      margin: 4px 0 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .apple-slide-desc {
-      font-size: 13px;
-      color: #94a3b8;
-      max-width: 580px;
-      line-height: 1.4;
-    }
-    .apple-slide-action {
-      flex-shrink: 0;
-    }
-
-    /* Apple Carousel Navigation Bar (Floating Capsule Below Track) */
-    .apple-controls-wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 40px;
-      position: relative;
-      z-index: 25;
-      clear: both;
-    }
-    .apple-carousel-controls {
-      display: inline-flex;
-      align-items: center;
-      gap: 16px;
-      padding: 8px 22px;
-      background: rgba(14, 18, 30, 0.94);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 999px;
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(99, 102, 241, 0.18);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-    }
-    .apple-nav-arrow {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      line-height: 1;
-      transition: all 0.2s ease;
-      user-select: none;
-    }
-    .apple-nav-arrow:hover {
-      background: rgba(255, 255, 255, 0.22);
-      transform: scale(1.08);
-      border-color: rgba(255, 255, 255, 0.35);
-    }
-    .apple-dots {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .apple-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.25);
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
-    }
-    .apple-dot.active {
-      width: 26px;
-      border-radius: 12px;
-      background: #6366f1;
-      box-shadow: 0 0 12px rgba(99, 102, 241, 0.7);
-    }
-    .apple-play-toggle {
-      background: transparent;
-      border: 0;
-      color: #64748b;
-      cursor: pointer;
-      font-size: 14px;
-      padding: 6px;
-      transition: color 0.2s;
-    }
-    .apple-play-toggle:hover {
-      color: #fff;
-    }
-
-    /* Mercedes-Benz Style Editorial About Us Section */
-    .about-section {
-      padding: 100px 0 90px;
-      background: linear-gradient(180deg, rgba(8, 11, 18, 0) 0%, rgba(13, 17, 26, 0.7) 50%, rgba(8, 11, 18, 0) 100%);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      position: relative;
-    }
-    .about-header {
-      max-width: 800px;
-      margin-bottom: 50px;
-    }
-    .about-eyebrow {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-      color: #06b6d4;
-      margin-bottom: 10px;
-    }
-    .about-title {
-      font-size: 46px;
-      font-weight: 800;
-      letter-spacing: -1.2px;
-      color: #ffffff;
-      margin-bottom: 14px;
-      line-height: 1.15;
-    }
-    .about-sub-title {
-      font-size: 19px;
-      color: #94a3b8;
-      font-weight: 400;
-      line-height: 1.6;
-    }
-
-    .about-story-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-      margin-bottom: 54px;
-    }
-    .about-story-text {
-      color: #cbd5e1;
-      font-size: 15.5px;
-      line-height: 1.8;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .about-lead {
-      font-size: 18px;
-      font-weight: 600;
-      color: #f8fafc;
-      line-height: 1.6;
-    }
-    .about-highlight {
-      border-left: 3px solid #6366f1;
-      padding-left: 18px;
-      margin: 8px 0;
-      color: #e2e8f0;
-      font-size: 16px;
-    }
-    .about-highlight em {
-      font-style: italic;
-      color: #c7d2fe;
-    }
-    .about-visual-column {
-      position: relative;
-    }
-    .about-image-card {
-      background: #0d121f;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(6, 182, 212, 0.15);
-      position: relative;
-    }
-    .about-profile-photo {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
-    }
-    .about-image-card:hover .about-profile-photo {
-      transform: scale(1.02);
-    }
-    .about-image-badge {
-      position: absolute;
-      bottom: 14px;
-      left: 14px;
-      right: 14px;
-      background: rgba(8, 11, 18, 0.85);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      padding: 9px 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #e2e8f0;
-    }
-    .badge-dot {
-      color: #10b981;
-      font-size: 10px;
-    }
-
-    /* Mercedes-Benz Style Bento Credibility Grid */
-    .about-metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .about-metric-card {
-      background: rgba(14, 18, 28, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 30px 26px;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .about-metric-card:hover {
-      border-color: rgba(99, 102, 241, 0.35);
-      transform: translateY(-3px);
-      background: rgba(18, 24, 38, 0.85);
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
-    }
-    .metric-icon {
-      font-size: 26px;
-      margin-bottom: 12px;
-    }
-    .metric-number {
-      font-size: 22px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.4px;
-      margin-bottom: 4px;
-    }
-    .about-metric-card h4 {
-      font-size: 15px;
-      font-weight: 700;
-      color: #818cf8;
-      margin-bottom: 8px;
-    }
-    .about-metric-card p {
-      font-size: 13.5px;
-      color: #94a3b8;
-      line-height: 1.55;
-    }
-
-    /* Billing Toggle (Monthly vs Annual 1-Year) */
-    .billing-toggle-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-      background: rgba(18, 24, 38, 0.85);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 6px 18px;
-      margin-top: 24px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    }
-    .billing-label {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: color 0.2s;
-      user-select: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .billing-label.active { color: #fff; }
-    .billing-switch {
-      width: 48px;
-      height: 26px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 999px;
-      position: relative;
-      border: none;
-      cursor: pointer;
-      outline: none;
-      transition: background 0.25s ease;
-      padding: 2px;
-    }
-    .billing-switch.active {
-      background: var(--primary);
-    }
-    .switch-knob {
-      display: block;
-      width: 22px;
-      height: 22px;
-      background: #fff;
-      border-radius: 50%;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    }
-    .billing-switch.active .switch-knob {
-      transform: translateX(22px);
-    }
-    .save-badge {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 3px 9px;
-      border-radius: 999px;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
-    }
-    .plan-sub-billing {
-      font-size: 12.5px;
-      color: #34d399;
-      font-weight: 600;
-      margin-top: 4px;
-      min-height: 18px;
-    }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hero h1 { font-size: 38px; }
-      .pricing-card.featured { transform: none; }
-      .setup-funnel { grid-template-columns: 1fr; gap: 12px; }
-      .setup-arrow { transform: rotate(90deg); margin: -4px 0; }
-      .apple-carousel-track { min-height: 480px; }
-      .apple-slide.prev, .apple-slide.next { display: none; }
-      .apple-slide.active { width: 95vw; }
-      .apple-slide-overlay { flex-direction: column; align-items: flex-start; gap: 10px; padding: 18px 14px; }
-      .apple-slide-title { font-size: 16px; }
-      .apple-slide-desc { font-size: 12px; }
-      .about-story-grid { grid-template-columns: 1fr; gap: 32px; }
-      .about-metrics-grid { grid-template-columns: 1fr; gap: 14px; }
-      .about-title { font-size: 34px; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="site.js" defer></script>
 </head>
-<body>
-
-  <div class="glow-bg"></div>
-
-  <!-- Header -->
-  <header>
-    <div class="container nav-wrap">
-      <a href="#" class="brand">
-        <img src="vidaclip-logo.png" alt="VidaClip Logo">
-        VidaClip
-      </a>
-      <ul class="nav-links">
-        <li><a href="#showcase">Showcase</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ul>
-      <div style="display: flex; gap: 12px;">
-        <a href="#pricing" class="btn btn-secondary">Pricing</a>
-        <a href="#download" class="btn btn-primary">Download Free</a>
-      </div>
+<body id="top">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="nav shell">
+      <a class="brand" href="#top"><img src="assets/mark.webp" alt="" width="34" height="34">VidaClip</a>
+      <nav aria-label="Main navigation">
+        <a href="#workspace">Tools</a>
+        <a href="#showcase">Studio</a>
+        <a href="#pricing">Plans</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#updates">Updates</a>
+      </nav>
+      <a class="button primary nav-download" href="#download">Get VidaClip</a>
     </div>
   </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <div class="pill">⚡ VidaClip 1.2.9 • Local clips, layered edits & privacy-first exports</div>
-      <h1>
-        Turn Any Long Video Into<br>
-        <span class="gradient-text">Viral Shorts & Reels in Seconds</span>
-      </h1>
-      <p>
-        Clip the moments you want, then shape them into Shorts and Reels with a real layered editor. VidaClip renders locally on your own computer—no upload queue, no watermarks, and no cloud wait.
-      </p>
-      <!-- Centered Primary Hero CTA Suite -->
-      <div class="hero-center-cta">
-        <div class="cta-button-group">
-          <!-- Primary: Add to Microsoft Edge -->
-          <a href="https://microsoftedge.microsoft.com/addons/detail/ooogedpnllkpbgdohjakigfajiohmdli" target="_blank" class="btn btn-edge-primary btn-hero-lg">
-            <svg class="btn-icon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M0 12.18c0-4.32 2.45-8.22 6.3-10.05C5.7 3.96 5.85 6.06 6.8 8.04c.8 1.66 2.08 2.97 3.69 3.73-.24-.9-.23-1.85.03-2.73.34-1.12 1.05-2.07 2.01-2.69 1.48-.96 3.42-1.16 5.09-.54 1.7.63 3.01 2.02 3.6 3.71.6 1.7.42 3.59-.49 5.15-1.13 1.93-3.14 3.19-5.38 3.37-3.79.3-7.23-2.19-7.96-5.89-.09-.46-.14-.94-.14-1.42 0-.27.02-.54.05-.8C3.12 11.23 0 11.66 0 12.18z"/>
-            </svg>
-            <div class="btn-text-wrap">
-              <span class="btn-main-text">Add to Microsoft Edge</span>
-              <span class="btn-sub-text">Official Store • 1-Click Free Install</span>
+  <main id="main">
+    <section class="hero shell">
+      <div class="release-pill"><i aria-hidden="true"></i> Windows Desktop <span></span> v1.2.33 Early Access</div>
+      <h1>From long video<br>to <em>short story.</em></h1>
+      <p class="hero-intro">Find the best moments with Auto Clip. Fine-tune every cut in Studio. Make Reels, Shorts, and TikToks on your Windows PC.</p>
+      <div class="actions">
+        <a class="button primary" href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.33/VidaClip-Desktop-1.2.33-Windows.zip">Download for Windows</a>
+        <a class="button secondary" href="#showcase">Explore Studio</a>
+      </div>
+      <div class="preview" aria-label="Illustrated preview of a project in VidaClip Studio">
+        <div class="preview-bar"><span class="preview-brand"><img src="assets/mark.webp" alt="" width="22" height="22"> VidaClip <span>Studio</span></span><span class="preview-title">Field Notes / Alpine cut</span><span class="preview-export">Export</span></div>
+        <div class="preview-body">
+          <div class="preview-media" aria-hidden="true">
+            <div class="pane-heading">Project media</div>
+            <div class="media-thumb"><span>00:24</span></div>
+            <div class="media-name">Alpine morning.mp4</div>
+            <div class="media-sound"><span>♫</span> Field recording</div>
+          </div>
+          <div class="preview-player">
+            <div class="pane-heading">Output preview <span>9:16</span></div>
+            <div class="preview-visual">
+              <span class="preview-caption">Above the tree line.</span>
             </div>
-          </a>
-
-          <!-- Secondary: Chrome, Brave & Firefox Guide -->
-          <button onclick="openModal('install')" class="btn btn-secondary btn-hero-lg">
-            <svg class="btn-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-            <div class="btn-text-wrap">
-              <span class="btn-main-text">Chrome, Brave & Firefox</span>
-              <span class="btn-sub-text">Quick Setup Guide</span>
-            </div>
-          </button>
+            <div class="play-controls" aria-hidden="true"><span>▶</span> 00:04:12 <span>/ 00:15:00</span></div>
+          </div>
+          <div class="preview-inspector" aria-hidden="true">
+            <div class="pane-heading">Inspector</div>
+            <div class="inspector-title">Transform <span>◇</span></div>
+            <div class="inspector-line">Scale <b>112%</b></div>
+            <div class="slider-drawing"></div>
+            <div class="inspector-line">Position <b>X 0 &nbsp; Y 0</b></div>
+            <div class="inspector-line">Rotation <b>0.0°</b></div>
+          </div>
         </div>
-
-        <div class="hero-trust-badges">
-          <span>⭐ 5.0 Rating</span>
-          <span>•</span>
-          <span>⚡ Instant 1-Click Install</span>
-          <span>•</span>
-          <span>🔒 100% Private Local Clipping</span>
-          <span>•</span>
-          <span>🚫 Zero Watermarks</span>
+        <div class="draw-timeline" aria-hidden="true">
+          <div class="time-labels"><span>Timeline</span><span>00:00</span><span>00:05</span><span>00:10</span><span>00:15</span></div>
+          <div class="draw-track"><span>Track 3</span><div><b class="draw-title">Above the tree line.</b></div></div>
+          <div class="draw-track"><span>Track 2</span><div class="video-track"><b>Alpine morning.mp4</b><b>Alpine morning.mp4</b></div></div>
+          <div class="draw-track"><span>Track 1</span><div><b class="draw-audio">♫ Field recording</b></div></div>
+          <div class="draw-head"></div>
         </div>
       </div>
+      <p class="preview-note">Illustrated Studio preview</p>
+    </section>
 
-      <!-- Professional Desktop Studio Companion Banner -->
-      <div class="desktop-companion-card" id="download">
-        <div class="desktop-card-info">
-          <div class="desktop-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801"/>
-            </svg>
-          </div>
-          <div class="desktop-card-text">
-            <div class="desktop-tag">CORE DESKTOP ENGINE</div>
-            <h4>VidaClip Studio for Windows (v1.2.9)</h4>
-            <p>Your local clipping engine and layered editor: video, cuts, layouts and audio in one smooth workflow.</p>
-          </div>
+    <section class="section shell" id="features">
+      <div class="split auto-section">
+        <div>
+          <p class="eyebrow"><span></span> New in v1.2.33</p>
+          <h2>Find the good part.<br>Cut the dead air.</h2>
+          <p class="section-intro">Paste a link from YouTube, Facebook, Instagram, or TikTok. Auto Clip suggests moments and opens them as editable vertical drafts in Studio.</p>
+          <ol class="steps">
+            <li><div><strong>Set your clip length</strong><p>Pick 5, 10, 15, or 20 seconds. Free gets up to two drafts per run. Paid plans unlock up to ten and custom lengths.</p></div></li>
+            <li><div><strong>Choose the edits</strong><p>Trim long pauses, turn speech into captions, add a spoken intro, or add sound effects. Each option has its own switch.</p></div></li>
+            <li><div><strong>Review in Studio</strong><p>Open each result on its own timeline. Adjust the cuts, captions, audio, and framing before you export.</p></div></li>
+          </ol>
         </div>
-
-        <div class="desktop-card-actions">
-          <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.9/VidaClip-Desktop-1.2.9-Windows.zip" onclick="openModal('windows')" class="btn btn-primary btn-sm">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            Download Windows App (.zip)
-          </a>
-          <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.9/VidaClip-Extension-1.2.9.zip" class="btn btn-ghost btn-sm">
-            Browser Extension .ZIP
-          </a>
-          <button onclick="openModal('windows')" class="btn btn-link btn-sm">
-            📖 How to Download & Install
-          </button>
-        </div>
+        <figure class="feature-image auto-image">
+          <a href="assets/auto-clip.webp" aria-label="Open the full Auto Clip dialog screenshot"><img src="assets/auto-clip.webp" alt="The Auto Clip dialog with length presets and switches for captions, dead air, sound effects, and a spoken intro" loading="lazy" width="527" height="554"></a>
+          <figcaption>Auto Clip in the Desktop Workspace</figcaption>
+        </figure>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- HWBT-Style Continuous Marquee Ticker -->
-  <div class="ticker-wrap" aria-hidden="true">
-    <div class="ticker-move">
-      <span class="ticker-item">⚡ 100% Private Local Processing</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">🚫 Zero Watermarks Forever</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">🎙️ 50/50 Podcast Duo Split</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">🚀 60FPS Hardware Accelerated</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">▶️ YouTube • 📱 TikTok • 🌐 Facebook Reels</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">🔒 Zero Cloud Uploads</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">⚡ 100% Private Local Processing</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">🚫 Zero Watermarks Forever</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">🎙️ 50/50 Podcast Duo Split</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">🚀 60FPS Hardware Accelerated</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">▶️ YouTube • 📱 TikTok • 🌐 Facebook Reels</span>
-      <span class="ticker-sep">—</span>
-      <span class="ticker-item">🔒 Zero Cloud Uploads</span>
-      <span class="ticker-sep">—</span>
-    </div>
-  </div>
-
-  <!-- Apple TV+ Style Center-Focused Panoramic Showcase -->
-  <section class="apple-showcase-section" id="showcase">
-    <div class="apple-showcase-header">
-      <span class="section-eyebrow">APPLICATION SHOWCASE</span>
-      <h2 class="section-title">Experience VidaClip in Action</h2>
-      <p class="section-subtitle">From seamless in-browser video clipping to professional desktop podcast reframing.</p>
-    </div>
-
-    <div class="apple-stage-wrapper">
-      <div class="apple-carousel-track" id="apple-carousel-track">
-
-        <!-- Slide 1: Desktop Studio -->
-        <article class="apple-slide active" data-index="0">
-          <div class="apple-slide-header">
-            <div class="apple-window-dots">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="apple-window-title">VIDACLIP STUDIO • LAYERED EDIT TIMELINE</div>
-            <div class="apple-window-tag">60 FPS GPU</div>
-          </div>
-          <div class="apple-slide-img-wrap">
-            <img src="screenshots/shot_studio_129.png" alt="VidaClip Studio layered editing timeline" class="apple-slide-img">
-            <div class="apple-slide-overlay">
-              <div class="apple-slide-info">
-                <span class="apple-pill-tag">🎙️ DESKTOP STUDIO</span>
-                <h3 class="apple-slide-title">A real timeline for Shorts, Reels and multi-camera edits</h3>
-                <p class="apple-slide-desc">Separate video, cut, layout and audio lanes make fast reframing feel clear—even on your first edit.</p>
-              </div>
-              <div class="apple-slide-action">
-                <a href="#download" class="btn btn-primary btn-sm">Download Studio</a>
-              </div>
-            </div>
-          </div>
+    <section class="section shell workspace-section" id="workspace">
+      <p class="eyebrow"><span></span> Desktop Workspace</p>
+      <h2>Download, clean, and clip.</h2>
+      <p class="section-intro">Save a video from a link, clean metadata from a local file, or find highlights with <a class="text-link" href="#features">Auto Clip</a>.</p>
+      <div class="workspace-tools">
+        <article>
+          <p class="tool-location">Workspace · Direct Downloader</p>
+          <h3>Instant Link Downloader</h3>
+          <p>Paste a public YouTube, Facebook, Instagram, or TikTok link you have permission to download. Choose the quality and click <strong>Download</strong>. Saved videos appear in Clips, ready to open in Studio.</p>
+          <p class="tool-detail">For just one moment, use the browser clipper to mark the start and end while you watch.</p>
         </article>
-
-        <!-- Slide 2: YouTube Clipper -->
-        <article class="apple-slide next" data-index="1">
-          <div class="apple-slide-header">
-            <div class="apple-window-dots">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="apple-window-title">VIDACLIP EXTENSION • YOUTUBE IN-PLAYER CONTROLS</div>
-            <div class="apple-window-tag">BROWSER COMPANION</div>
-          </div>
-          <div class="apple-slide-img-wrap">
-            <img src="screenshots/shot_youtube.png" alt="YouTube Clipper" class="apple-slide-img">
-            <div class="apple-slide-overlay">
-              <div class="apple-slide-info">
-                <span class="apple-pill-tag">▶️ BROWSER EXTENSION</span>
-                <h3 class="apple-slide-title">YouTube Clipper — Native In-Player Controls</h3>
-                <p class="apple-slide-desc">Integrates directly below the YouTube video player for 1-click precision loop trimming and timestamp capture.</p>
-              </div>
-              <div class="apple-slide-action">
-                <a href="https://microsoftedge.microsoft.com/addons/detail/vidaclip-%E2%80%94-social-video-/dopknhmhkkgmflonchgikmchghnhbkjc" target="_blank" class="btn btn-secondary btn-sm">Add to Edge (Free)</a>
-              </div>
-            </div>
-          </div>
+        <article>
+          <p class="tool-location">Workspace · Remove all AI Labels</p>
+          <h3>AI Label Remover</h3>
+          <p>Scan batches of images or videos and save cleaned copies locally. The Activity Stream shows which supported metadata markers it found and what was removed.</p>
+          <p class="tool-detail">This tool works on embedded metadata such as Content Credentials (C2PA). Visible overlays and labels set by platforms are outside its scope.</p>
         </article>
+      </div>
+    </section>
 
-        <!-- Slide 3: TikTok Dynamic Island -->
-        <article class="apple-slide" data-index="2">
-          <div class="apple-slide-header">
-            <div class="apple-window-dots">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="apple-window-title">VIDACLIP EXTENSION • TIKTOK FLOATING CONTROLLER</div>
-            <div class="apple-window-tag">VIRAL REEL CLIPPER</div>
+    <section class="section studio-section" id="showcase">
+      <div class="shell">
+        <p class="eyebrow"><span></span> Inside VidaClip Studio</p>
+        <h2>A timeline you can make your own.</h2>
+        <p class="section-intro">Start from a clean project, work from your Clip Library, or reframe with Quick Clip layouts like side-by-side and picture-in-picture. Studio gives you the space to build the full sequence.</p>
+        <div class="studio-tour" data-studio-tour>
+          <div class="tour-choices" role="group" aria-label="Studio feature previews">
+            <button type="button" class="tour-button" data-preview="timeline" aria-pressed="true">Layered timeline</button>
+            <button type="button" class="tour-button" data-preview="projects" aria-pressed="false">Projects &amp; Clips</button>
+            <button type="button" class="tour-button" data-preview="speech" aria-pressed="false">Captions &amp; voice</button>
           </div>
-          <div class="apple-slide-img-wrap">
-            <img src="screenshots/shot_tiktok.png" alt="TikTok Clipper" class="apple-slide-img">
-            <div class="apple-slide-overlay">
-              <div class="apple-slide-info">
-                <span class="apple-pill-tag">📱 TIKTOK CLIPPER</span>
-                <h3 class="apple-slide-title">TikTok Dynamic Island Controller</h3>
-                <p class="apple-slide-desc">Sleek top widget tracks viral feeds in real-time, letting you grab trending clips without obscuring playback.</p>
-              </div>
-              <div class="apple-slide-action">
-                <a href="https://microsoftedge.microsoft.com/addons/detail/vidaclip-%E2%80%94-social-video-/dopknhmhkkgmflonchgikmchghnhbkjc" target="_blank" class="btn btn-secondary btn-sm">Add to Edge (Free)</a>
-              </div>
-            </div>
+          <figure class="feature-image tour-image" aria-live="polite">
+            <a id="tour-link" href="assets/studio-timeline.webp" aria-label="Open the full Layered timeline screenshot"><img id="tour-photo" src="assets/studio-timeline.webp" alt="VidaClip Studio with a portrait preview, a transform inspector, and several editable timeline tracks" loading="lazy" width="1600" height="841"></a>
+            <figcaption id="tour-caption">An Auto Clip draft opened in Studio with separate video, caption, and audio clips.</figcaption>
+          </figure>
+        </div>
+        <div class="feature-grid">
+          <article><h3>Flexible tracks</h3><p>Layer video, photos, titles, captions, and audio. Move a split section to another track or drag it above the stack to create a track. Use the source audio waveform to line up cuts.</p></article>
+          <article><h3>Timeline controls</h3><p>Split and ripple trim at the playhead, use magnetic snapping, and scroll sideways through longer projects. Hold Alt while scrolling to zoom the timeline.</p></article>
+          <article><h3>Keyframes and motion</h3><p>Animate position and scale, set transforms in the Inspector, and choose motion easing. Use transitions, speed ramps, freeze frames, and reverse clips.</p></article>
+          <article><h3>Quick Clip layouts</h3><p>Use podcast stacks, side-by-side views, picture-in-picture, and triple stacks. Turn on safe-zone guides to keep faces and captions clear of social app controls.</p></article>
+          <article><h3>Text, captions, and voice</h3><p>Move and resize titles and stickers on the preview. Generate editable captions, import or export SRT, and add locally generated voiceovers or sound effects.</p></article>
+          <article><h3>Proxy preview and local export</h3><p>Edit with lighter previews and render from the original media. Export in H.264, HEVC, or AV1, with GPU encoding where available and no VidaClip watermark.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell gallery-section" id="screenshots">
+      <p class="eyebrow"><span></span> Product screenshots</p>
+      <h2>See VidaClip in action.</h2>
+      <p class="section-intro">Follow the workflow from capturing a moment in the browser to finishing the edit in Studio.</p>
+      <section class="gallery-group" aria-labelledby="gallery-group-0">
+        <h3 id="gallery-group-0">Browser extension</h3>
+        <p class="gallery-note">Preview of the v1.2.19 extension.</p>
+        <div class="gallery-grid">
+          <figure>
+            <a class="gallery-card" href="assets/screenshots/01-floating-clipper.webp">
+              <img src="assets/screenshots/01-floating-clipper.webp" width="1280" height="800" loading="lazy" alt="Mark the start and end while watching a video.">
+              <span>Floating Clipper</span>
+            </a>
+          </figure>
+          <figure>
+            <a class="gallery-card" href="assets/screenshots/02-link-downloader.webp">
+              <img src="assets/screenshots/02-link-downloader.webp" width="1280" height="800" loading="lazy" alt="Paste a video link, choose the quality, and send it to Desktop.">
+              <span>Instant Link Downloader</span>
+            </a>
+          </figure>
+          <figure>
+            <a class="gallery-card" href="assets/screenshots/03-ai-label-remover.webp">
+              <img src="assets/screenshots/03-ai-label-remover.webp" width="1280" height="800" loading="lazy" alt="Send photos or videos to Desktop for local metadata cleanup.">
+              <span>AI Label Remover</span>
+            </a>
+          </figure>
+        </div>
+      </section>
+      <section class="gallery-group" aria-labelledby="gallery-group-1">
+        <h3 id="gallery-group-1">Desktop</h3>
+        <div class="gallery-grid">
+          <figure>
+            <a class="gallery-card" href="assets/screenshots/04-workspace.webp">
+              <img src="assets/screenshots/04-workspace.webp" width="1280" height="800" loading="lazy" alt="Import media, download by link, or track jobs from one place.">
+              <span>Workspace and Activity Stream</span>
+            </a>
+          </figure>
+          <figure>
+            <a class="gallery-card" href="assets/screenshots/05-auto-clip.webp">
+              <img src="assets/screenshots/05-auto-clip.webp" width="1280" height="800" loading="lazy" alt="Choose the length and count, then add captions or trim long pauses.">
+              <span>Auto Clip</span>
+            </a>
+          </figure>
+        </div>
+      </section>
+      <section class="gallery-group" aria-labelledby="gallery-group-2">
+        <h3 id="gallery-group-2">Studio Editor</h3>
+        <div class="gallery-grid">
+          <figure>
+            <a class="gallery-card" href="assets/screenshots/06-flexible-timeline.webp">
+              <img src="assets/screenshots/06-flexible-timeline.webp" width="1280" height="800" loading="lazy" alt="Split clips, move them between tracks, and layer video, captions, and audio.">
+              <span>Flexible timeline</span>
+            </a>
+          </figure>
+          <figure>
+            <a class="gallery-card" href="assets/screenshots/07-quick-clip-layouts.webp">
+              <img src="assets/screenshots/07-quick-clip-layouts.webp" width="1280" height="800" loading="lazy" alt="Reframe source regions with split layouts or picture-in-picture.">
+              <span>Quick Clip layouts</span>
+            </a>
+          </figure>
+          <figure>
+            <a class="gallery-card" href="assets/screenshots/08-captions-and-voice.webp">
+              <img src="assets/screenshots/08-captions-and-voice.webp" width="1280" height="800" loading="lazy" alt="Generate editable captions and add narration locally.">
+              <span>Captions and voice</span>
+            </a>
+          </figure>
+          <figure>
+            <a class="gallery-card" href="assets/screenshots/09-preview-and-export.webp">
+              <img src="assets/screenshots/09-preview-and-export.webp" width="1280" height="800" loading="lazy" alt="Edit with lighter previews and render using the original footage.">
+              <span>Preview and export</span>
+            </a>
+          </figure>
+        </div>
+      </section>
+      <dialog class="gallery-dialog" id="gallery-viewer" aria-labelledby="gallery-title">
+        <div class="gallery-dialog-head">
+          <h3 id="gallery-title"></h3>
+          <button type="button" data-gallery-close autofocus>Close</button>
+        </div>
+        <img id="gallery-full" width="1280" height="800" alt="">
+        <div class="gallery-dialog-nav">
+          <button type="button" data-gallery-prev>Previous</button>
+          <span id="gallery-count" aria-live="polite"></span>
+          <button type="button" data-gallery-next>Next</button>
+        </div>
+      </dialog>
+    </section>
+
+    <section class="section shell" id="updates">
+      <div class="updates-head">
+        <div><p class="eyebrow"><span></span> Product updates</p><h2>What’s new in VidaClip</h2></div>
+        <a class="text-link" href="https://github.com/JamiiDels/VidaClip-/releases/tag/v1.2.33">Read the GitHub release</a>
+      </div>
+      <div class="update-stack">
+        <article><div class="update-label"><strong>v1.2.33</strong><span>Latest Desktop release</span></div><div><h3>Auto Clip</h3><ul>
+          <li>Suggest highlights from YouTube, Facebook, Instagram, and TikTok links as editable vertical drafts.</li>
+          <li>Set clip count and length. Free gets up to two drafts at preset lengths. Paid plans support up to ten and custom lengths.</li>
+          <li>Toggle dead-air removal, speech captions, a spoken intro, and sound effects independently.</li>
+          <li>Follow progress, cancel a run, or review each completed draft on its own timeline.</li>
+        </ul></div></article>
+        <article><div class="update-label"><strong>Workspace</strong><span>Downloads and cleanup</span></div><div><h3>Direct Downloader, AI Label Remover, and job progress</h3><ul>
+          <li>Paste a video link and choose the quality from Desktop. Use the browser clipper to mark start and end times while watching.</li>
+          <li>Clean supported embedded metadata from batches of photos and videos. See detected markers and saved copies in the Activity Stream.</li>
+          <li>Track download and render progress, with 100% reserved for completion. Check for Desktop updates from the Plans screen.</li>
+        </ul></div></article>
+        <article><div class="update-label"><strong>Studio home</strong><span>Projects and media</span></div><div><h3>Project library and two editing workspaces</h3><ul>
+          <li>Create a blank project with an empty Media Bin, reopen a saved project, or resume a draft.</li>
+          <li>Find downloads automatically in Clips and import local footage, audio, or photos.</li>
+          <li>Use Quick Clip for social layouts and safe zones, or Studio for layered projects. Scroll through the Inspector to reach transform controls.</li>
+        </ul></div></article>
+        <article><div class="update-label"><strong>Timeline</strong><span>Layered editing</span></div><div><h3>Flexible tracks, motion, and overlays</h3><ul>
+          <li>Move split clips along the timeline or between tracks. Drag upward to create another track.</li>
+          <li>Use thumbnails, source-audio waveforms, wheel navigation, Alt + wheel zoom, snapping, ripple trims, undo, and clip context menus.</li>
+          <li>Add keyframes directly to clips, adjust position and scale, and move or resize titles and stickers on the preview.</li>
+          <li>Apply transitions and effects, switch layouts, or compose multiple views from one source.</li>
+        </ul></div></article>
+        <article><div class="update-label"><strong>Local tools</strong><span>Audio, video, and export</span></div><div><h3>Speech tools, footage preparation, and lighter previews</h3><ul>
+          <li>Generate styled, editable captions locally and import or export SRT files.</li>
+          <li>Make a voiceover using installed Windows voices, local English neural voices, or a voice reference you have permission to use.</li>
+          <li>Prepare speed ramps, freeze frames, reversed clips, and versions with stabilization, enhancement, or denoising.</li>
+          <li>Scrub with lighter proxy previews, track export progress, and render locally from original footage.</li>
+        </ul></div></article>
+        <article><div class="update-label"><strong>Automation</strong><span>Optional integrations</span></div><div><h3>Script edits or connect an assistant</h3><ul>
+          <li>Use the bundled Automation app through MCP, the command line, or JSON-RPC.</li>
+          <li>Import media, edit timelines, generate captions or voiceovers, and start exports from a connected tool.</li>
+        </ul></div></article>
+      </div>
+    </section>
+
+    <section class="section pricing-section" id="pricing">
+      <div class="shell">
+        <p class="eyebrow"><span></span> Plans</p>
+        <h2>Start with the full editor.</h2>
+        <p class="section-intro">Every plan includes Studio, local rendering, unlimited Studio exports, and zero VidaClip watermarks. Paid plans raise the daily direct clip limit and unlock more Auto Clip settings.</p>
+        <div class="billing" role="group" aria-label="Billing period">
+          <button type="button" data-billing="monthly" aria-pressed="true">Monthly</button>
+          <button type="button" data-billing="annual" aria-pressed="false">Yearly</button>
+        </div>
+        <div class="plans">
+          <article class="plan" id="plan-free">
+            <h3>Free</h3><p class="price">$0 <span>/ forever</span></p>
+            <ul><li>15 direct clips per day</li><li>1–2 Auto Clip drafts per run</li><li>5, 10, 15, or 20 second presets</li><li>10 image and 5 video metadata cleans per week</li><li>Clearly labeled sponsor space</li></ul>
+            <a class="button secondary" href="#download">Get started free</a>
+          </article>
+          <article class="plan" id="plan-creator" data-year="79" data-month="9.99" data-year-link="https://vidaclip.lemonsqueezy.com/checkout/buy/57e66a32-1e1f-4d44-8f50-36d3605712b2">
+            <h3>Creator</h3><p class="price"><span class="price-amount">$9.99</span> <span class="price-period">/ month</span></p>
+            <ul><li>50 direct clips per day</li><li>Up to 10 Auto Clip drafts per run</li><li>Custom Auto Clip lengths</li><li>100 image and 100 video metadata cleans per week</li><li>Sponsor-free workspace</li></ul>
+            <a class="button secondary checkout" href="https://vidaclip.lemonsqueezy.com/checkout/buy/e017e628-11b6-482e-a86c-69cf3463c09b">Choose Creator</a>
+          </article>
+          <article class="plan pro" id="plan-pro" data-year="159" data-month="19.99" data-year-link="https://vidaclip.lemonsqueezy.com/checkout/buy/f8805ab3-54a4-4d1a-8274-bc83c14f631d">
+            <h3>Pro</h3><p class="price"><span class="price-amount">$19.99</span> <span class="price-period">/ month</span></p>
+            <ul><li>100 direct clips per day</li><li>Up to 10 Auto Clip drafts per run</li><li>Custom Auto Clip lengths</li><li>1,000 image and 1,000 video metadata cleans per week</li><li>Sponsor-free workspace</li></ul>
+            <a class="button primary checkout" href="https://vidaclip.lemonsqueezy.com/checkout/buy/8fcaea3a-e8cb-41ad-8b43-da98732f9e59">Choose Pro</a>
+          </article>
+          <article class="plan" id="plan-studio" data-year="319" data-month="39.99" data-year-link="https://vidaclip.lemonsqueezy.com/checkout/buy/fb994be2-5c6f-4d43-911c-b396c97f2240">
+            <h3>Studio</h3><p class="price"><span class="price-amount">$39.99</span> <span class="price-period">/ month</span></p>
+            <ul><li>Unlimited direct clips</li><li>Up to 10 Auto Clip drafts per run</li><li>Custom Auto Clip lengths</li><li>Unlimited metadata cleans</li><li>Unlimited video duration and sequences</li><li>1-on-1 support</li></ul>
+            <a class="button secondary checkout" href="https://vidaclip.lemonsqueezy.com/checkout/buy/a62be072-8ce2-4de1-ac28-ca9510127ce2">Choose Studio</a>
+          </article>
+        </div>
+        <p class="section-note">Prices in USD. Checkout and billing are handled by Lemon Squeezy.</p>
+      </div>
+    </section>
+
+    <section class="section shell faq-section" id="faq">
+      <div><p class="eyebrow"><span></span> Help</p><h2>Good to know.</h2></div>
+      <div class="faq-list">
+        <details><summary>How do I install the Windows app?</summary><p>Download the ZIP, extract it into a new folder, and run <strong>VidaClip_Desktop.exe</strong>. Keep the two executables and the shared <code>_internal</code> folder together. VidaClip also checks for updates in the app under Plans.</p></details>
+        <details><summary>Do I need the browser extension?</summary><p>You can paste links into Desktop or import local media without the extension. The browser extension is for marking clip start and end times as you watch videos in your browser.</p></details>
+        <details><summary>Does VidaClip upload my project?</summary><p>Studio editing, rendering, and transcription run on your PC. Fetching linked videos, downloading models or updates, and activating a paid license require an internet connection.</p></details>
+        <details><summary>What if a video link doesn’t work?</summary><p>Use an individual video link that you have permission to clip. Availability varies by platform and video. You can also import a local copy you’re allowed to edit.</p></details>
+        <details><summary>How do I cancel a paid plan?</summary><p>Open the Lemon Squeezy billing portal from your purchase email to manage or cancel your subscription.</p></details>
+        <details><summary>What is VidaClip Automation?</summary><p>It lets a connected assistant or script work on your Studio project. In Desktop, open <strong>Studio Editor → Automation → Copy MCP config</strong>. Regular editing and Auto Clip run from the main Desktop app.</p></details>
+      </div>
+    </section>
+
+    <section class="download-section shell" id="download">
+      <div class="download-card">
+        <p class="eyebrow"><span></span> v1.2.33 Early Access</p>
+        <h2>Ready to make your first cut?</h2>
+        <p>Download the portable Windows app and start with a video link or your own footage.</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.33/VidaClip-Desktop-1.2.33-Windows.zip">Download for Windows</a>
+        </div>
+        <div class="extension-downloads">
+          <h3>Clip while you watch</h3>
+          <p>Mark clips in your browser and send them to VidaClip Desktop.</p>
+          <div class="actions">
+            <a class="button secondary" href="https://chromewebstore.google.com/detail/vidaclip-%E2%80%94-social-video-c/pajkhmldglleagkdgeogkcbgeonkhigo">Chrome Web Store</a>
+            <a class="button secondary" href="https://microsoftedge.microsoft.com/addons/detail/vidaclip-%E2%80%94-social-video-c/ooogedpnllkpbgdohjakigfajiohmdli">Microsoft Edge Add-ons</a>
           </div>
-        </article>
-
-        <!-- Slide 4: Facebook Reels -->
-        <article class="apple-slide" data-index="3">
-          <div class="apple-slide-header">
-            <div class="apple-window-dots">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="apple-window-title">VIDACLIP EXTENSION • FACEBOOK WATCH & REELS</div>
-            <div class="apple-window-tag">LIVESTREAM CLIPPER</div>
-          </div>
-          <div class="apple-slide-img-wrap">
-            <img src="screenshots/shot_facebook.png" alt="Facebook Reels Clipper" class="apple-slide-img">
-            <div class="apple-slide-overlay">
-              <div class="apple-slide-info">
-                <span class="apple-pill-tag">🌐 FACEBOOK REELS</span>
-                <h3 class="apple-slide-title">Facebook Watch & Reels Grabber</h3>
-                <p class="apple-slide-desc">Clip viral moments and gaming livestreams with instant hardware-accelerated local delivery.</p>
-              </div>
-              <div class="apple-slide-action">
-                <a href="https://microsoftedge.microsoft.com/addons/detail/vidaclip-%E2%80%94-social-video-/dopknhmhkkgmflonchgikmchghnhbkjc" target="_blank" class="btn btn-secondary btn-sm">Add to Edge (Free)</a>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Slide 5: Extension Controls -->
-        <article class="apple-slide prev" data-index="4">
-          <div class="apple-slide-header">
-            <div class="apple-window-dots">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="apple-window-title">VIDACLIP EXTENSION • QUALITY & PIPELINE HUB</div>
-            <div class="apple-window-tag">INSTANT TRIGGER</div>
-          </div>
-          <div class="apple-slide-img-wrap">
-            <img src="screenshots/shot_extension.png" alt="Extension Controls Popup" class="apple-slide-img">
-            <div class="apple-slide-overlay">
-              <div class="apple-slide-info">
-                <span class="apple-pill-tag">🧩 QUICK CONTROLS</span>
-                <h3 class="apple-slide-title">Extension Popup — Quality & Queue Hub</h3>
-                <p class="apple-slide-desc">Choose 1080p, 2K, or 4K streams, monitor your active plan, manage local clip slots, and launch Studio in 1-click.</p>
-              </div>
-              <div class="apple-slide-action">
-                <a href="https://microsoftedge.microsoft.com/addons/detail/vidaclip-%E2%80%94-social-video-/dopknhmhkkgmflonchgikmchghnhbkjc" target="_blank" class="btn btn-secondary btn-sm">Add to Edge (Free)</a>
-              </div>
-            </div>
-          </div>
-        </article>
-
-      </div>
-
-      <!-- Controls: Prev Arrow • Dots • Next Arrow • Play/Pause -->
-      <div class="apple-controls-wrap">
-        <div class="apple-carousel-controls">
-          <button class="apple-nav-arrow" id="apple-prev" aria-label="Previous Slide">‹</button>
-          <div class="apple-dots">
-            <span class="apple-dot active" data-dot="0"></span>
-            <span class="apple-dot" data-dot="1"></span>
-            <span class="apple-dot" data-dot="2"></span>
-            <span class="apple-dot" data-dot="3"></span>
-            <span class="apple-dot" data-dot="4"></span>
-          </div>
-          <button class="apple-nav-arrow" id="apple-next" aria-label="Next Slide">›</button>
-          <button class="apple-play-toggle" id="apple-play-toggle" title="Pause autoplay" aria-label="Pause Autoplay">⏸</button>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="features-section" id="features">
-    <div class="container">
-      <div class="section-header">
-        <h2>Built for High-Growth Creators</h2>
-        <p>Everything you need to turn 2-hour podcasts and gameplay streams into high-retention short videos.</p>
-      </div>
-
-      <div class="grid-3">
-        <div class="card">
-          <div class="card-icon">⚡</div>
-          <h3>100% Local GPU Rendering</h3>
-          <p>Unlike cloud tools that make you wait in long queues and compress your footage, VidaClip renders locally on your PC using bundled FFmpeg hardware acceleration.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">🎙️</div>
-          <h3>50/50 & Triple Stack Layouts</h3>
-          <p>One-click presets for podcast interviews, gaming reactions, and multi-speaker conversations with mathematically locked aspect ratios.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">✂️</div>
-          <h3>Multi-Video Timeline</h3>
-          <p>Split, insert, and combine clips from up to 3 separate videos into one continuous merged export with gapless audio transitions.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">🛡️</div>
-          <h3>TikTok & Reels Safe Zones</h3>
-          <p>Toggle real-time visual overlays for TikTok, Instagram Reels, and YouTube Shorts so your captions and faces are never hidden behind app buttons.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">💾</div>
-          <h3>Auto-Save & Hotkeys</h3>
-          <p>Pro timeline shortcuts (Space, S to split, V to select, Ctrl+Z/Y) with automatic project recovery so you never lose an edit.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">🚀</div>
-          <h3>Zero Watermarks Forever</h3>
-          <p>Your content is 100% yours. Clean, crisp 1080p 60fps output ready to publish straight to your channels without any forced branding.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Mercedes-Benz Style Editorial About Us Section -->
-  <section class="about-section" id="about">
-    <div class="container">
-      <div class="about-header">
-        <span class="about-eyebrow">THE VIDACLIP PHILOSOPHY</span>
-        <h2 class="about-title">About Us</h2>
-        <p class="about-sub-title">Engineered for creators who value speed, privacy, and uncompromising video fidelity.</p>
-      </div>
-
-      <div class="about-story-grid">
-        <div class="about-story-text">
-          <p class="about-lead">
-            VidaClip was founded on a simple conviction: content creators shouldn't have to compromise between speed, video quality, and data privacy.
-          </p>
-          <p>
-            For years, podcasters, video editors, and social media clipping teams had to endure slow cloud upload queues, aggressive video compression, intrusive pop-up ads, and costly monthly SaaS subscriptions just to split or reframe a short segment from a long-form video.
-          </p>
-          <p class="about-highlight">
-            <em>"Why upload gigabytes of footage to remote cloud servers when your computer already possesses incredible multi-core GPU processing power?"</em>
-          </p>
-          <p>
-            That engineering insight created VidaClip — a zero-compromise local video clipping engine. By bundling high-performance FFmpeg hardware rendering and the modern Deno runtime into a lightweight desktop application and browser companion, VidaClip handles downloads, trimming, 50/50 vertical reframing, and multi-cam sequencing directly on your device.
-          </p>
-          <p>
-            Your video files never leave your computer. There are zero watermarks, zero cloud waitlists, and zero tracking. We engineer the engine so you own the craft.
-          </p>
-        </div>
-
-        <div class="about-visual-column">
-          <div class="about-image-card">
-            <img src="about_profile.jpg" alt="VidaClip Studio Engineering & Creative Workstation" class="about-profile-photo">
-            <div class="about-image-badge">
-              <span class="badge-dot">●</span>
-              <span>Hardware-Accelerated Video Workstation • Jamii's Mind</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mercedes-Benz Inspired Bento Metrics Grid -->
-      <div class="about-metrics-grid">
-        <div class="about-metric-card">
-          <div class="metric-icon">🔒</div>
-          <div class="metric-number">100% Local</div>
-          <h4>Private & Secure</h4>
-          <p>All video downloads, audio processing, and rendering occur locally on 127.0.0.1. No footage is ever uploaded to external servers.</p>
-        </div>
-        <div class="about-metric-card">
-          <div class="metric-icon">⚡</div>
-          <div class="metric-number">60 FPS</div>
-          <h4>Hardware Accelerated</h4>
-          <p>Native GPU encoding delivers instant preview scrubbing and rapid multi-video timeline exports up to 4K resolution.</p>
-        </div>
-        <div class="about-metric-card">
-          <div class="metric-icon">🚫</div>
-          <div class="metric-number">0 Branding</div>
-          <h4>Zero Forced Watermarks</h4>
-          <p>Your video is 100% your intellectual property. Clean, watermark-free output ready for immediate publication across all social feeds.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pricing Section -->
-  <section class="pricing-section" id="pricing">
-    <div class="container">
-      <div class="section-header">
-        <h2>Simple, Transparent Plans</h2>
-        <p>Start free, make real edits, and upgrade only when you need more daily exports. Cancel anytime.</p>
-
-        <!-- Billing Toggle -->
-        <div class="billing-toggle-wrap">
-          <span class="billing-label active" id="label-monthly" onclick="setBilling(false)">Monthly</span>
-          <button class="billing-switch" id="billing-switch" onclick="toggleBilling()" aria-label="Toggle Annual Billing">
-            <span class="switch-knob"></span>
-          </button>
-          <span class="billing-label" id="label-yearly" onclick="setBilling(true)">
-            1-Year Plan
-            <span class="save-badge">Save up to 34% (2 Mos Free)</span>
-          </span>
-        </div>
-      </div>
-
-      <div class="pricing-grid">
-        <!-- Free -->
-        <div class="pricing-card">
-          <div class="plan-name">Free</div>
-          <div class="plan-price" id="price-free">$0 <span id="period-free">/ forever</span></div>
-          <div class="plan-sub-billing" id="sub-free">Free forever • No credit card</div>
-          <div class="plan-desc">A generous starting point for clipping and editing your own content.</div>
-          <ul class="plan-features">
-            <li><span>✓</span> 15 direct clips per day</li>
-            <li><span>✓</span> 5 Studio exports per day</li>
-            <li><span>✓</span> Full Studio editor & templates</li>
-            <li><span>✓</span> 100% Local rendering</li>
-            <li><span>✓</span> Zero watermarks</li>
-            <li><span>✓</span> Small, clearly-labelled sponsor space</li>
-          </ul>
-          <a href="#download" class="btn btn-secondary">Get Started Free</a>
-        </div>
-
-        <!-- Creator -->
-        <div class="pricing-card">
-          <div class="plan-name">Creator</div>
-          <div class="plan-price" id="price-creator">$9.99 <span id="period-creator">/ month</span></div>
-          <div class="plan-sub-billing" id="sub-creator">Billed monthly ($9.99/mo)</div>
-          <div class="plan-desc">For active creators posting daily TikToks & Shorts.</div>
-          <ul class="plan-features">
-            <li><span>✓</span> 50 direct clips per day</li>
-            <li><span>✓</span> 50 Studio exports per day</li>
-            <li><span>✓</span> Full Studio editor & templates</li>
-            <li><span>✓</span> Unlimited video duration</li>
-            <li><span>✓</span> Multi-video sequencing (3 videos)</li>
-            <li><span>✓</span> No sponsor space</li>
-          </ul>
-          <a id="btn-creator" href="https://vidaclip.lemonsqueezy.com/checkout/buy/e017e628-11b6-482e-a86c-69cf3463c09b" target="_blank" class="btn btn-secondary">Subscribe to Creator</a>
-        </div>
-
-        <!-- Pro -->
-        <div class="pricing-card featured">
-          <span class="featured-badge">Most Popular</span>
-          <div class="plan-name">Pro</div>
-          <div class="plan-price" id="price-pro">$19.99 <span id="period-pro">/ month</span></div>
-          <div class="plan-sub-billing" id="sub-pro">Billed monthly ($19.99/mo)</div>
-          <div class="plan-desc">For serious podcasters, editors & clipping channels.</div>
-          <ul class="plan-features">
-            <li><span>✓</span> 100 direct clips per day</li>
-            <li><span>✓</span> 100 Studio exports per day</li>
-            <li><span>✓</span> All Studio editing tools</li>
-            <li><span>✓</span> Unlimited video duration</li>
-            <li><span>✓</span> Safe-zone guides & hotkey suite</li>
-            <li><span>✓</span> Multi-video merged sequences</li>
-            <li><span>✓</span> No sponsor space</li>
-          </ul>
-          <a id="btn-pro" href="https://vidaclip.lemonsqueezy.com/checkout/buy/8fcaea3a-e8cb-41ad-8b43-da98732f9e59" target="_blank" class="btn btn-primary">Subscribe to Pro</a>
-        </div>
-
-        <!-- Studio -->
-        <div class="pricing-card">
-          <div class="plan-name">Studio</div>
-          <div class="plan-price" id="price-studio">$39.99 <span id="period-studio">/ month</span></div>
-          <div class="plan-sub-billing" id="sub-studio">Billed monthly ($39.99/mo)</div>
-          <div class="plan-desc">Unlimited power for video agencies and editing teams.</div>
-          <ul class="plan-features">
-            <li><span>✓</span> Unlimited direct clips and Studio exports</li>
-            <li><span>✓</span> Unlimited video duration</li>
-            <li><span>✓</span> Unlimited multi-clip sequences</li>
-            <li><span>✓</span> Highest bitrate & 60fps export</li>
-            <li><span>✓</span> 1-on-1 VIP Support</li>
-          </ul>
-          <a id="btn-studio" href="https://vidaclip.lemonsqueezy.com/checkout/buy/a62be072-8ce2-4de1-ac28-ca9510127ce2" target="_blank" class="btn btn-secondary">Subscribe to Studio</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ Section -->
-  <section class="faq-section" id="faq">
-    <div class="container">
-      <div class="section-header">
-        <h2>Frequently Asked Questions</h2>
-      </div>
-
-      <div class="faq-grid">
-        <div class="faq-item">
-          <h4>Does VidaClip upload my videos to the cloud?</h4>
-          <p>No. VidaClip runs 100% locally on your PC. Your video files, audio, and private recordings never leave your machine, ensuring total privacy and maximum rendering speed.</p>
-        </div>
-        <div class="faq-item">
-          <h4>How do I cancel my subscription?</h4>
-          <p>Every subscription email includes a self-service customer portal link where you can update your payment method or cancel in one click anytime.</p>
-        </div>
-        <div class="faq-item">
-          <h4>What platforms are supported?</h4>
-          <p>VidaClip Desktop is currently built for Windows 10 and 11 (64-bit). The browser companion extension is available for Google Chrome and Microsoft Edge.</p>
-        </div>
-        <div class="faq-item">
-          <h4>What can I do on the Free plan?</h4>
-          <p>Free includes the full Studio editor and every template: 15 direct clips and 5 Studio exports each day. A small sponsor space helps keep that plan available; your saved videos stay watermark-free.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-wrap">
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="vidaclip-logo.png" alt="VidaClip" style="width: 24px; height: 24px; border-radius: 6px;">
-        <span>© 2026 VidaClip. All rights reserved.</span>
-      </div>
-      <div class="footer-links">
-        <a href="#" onclick="openModal('terms')">Terms of Service</a>
-        <a href="#" onclick="openModal('privacy')">Privacy Policy</a>
-        <a href="mailto:vidaclip.official@gmail.com">Contact VidaClip</a>
-      </div>
+    </section>
+  </main>
+  <footer id="about">
+    <div class="shell footer-row">
+      <div><a class="brand" href="#top"><img src="assets/mark.webp" alt="" width="32" height="32">VidaClip</a><p>Video clipping and editing for Windows.</p></div>
+      <nav aria-label="Footer navigation"><a href="#faq">Help</a><a href="legal.html#privacy">Privacy</a><a href="legal.html#terms">Terms</a><a href="mailto:vidaclip.official@gmail.com">Contact &amp; sponsorships</a></nav>
     </div>
   </footer>
-
-  <!-- Terms Modal -->
-  <div class="modal-overlay" id="modal-terms">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeModal('terms')">&times;</button>
-      <h3>Terms of Service</h3>
-      <p>Last updated: September 2026</p>
-      <p>By downloading or using VidaClip Desktop and Extension, you agree to these Terms. VidaClip provides local video editing and reframing software.</p>
-      <p><strong>License & Usage:</strong> You are granted a personal, non-exclusive license to use VidaClip in accordance with your chosen subscription plan. You retain 100% ownership of all media you edit or export.</p>
-      <p><strong>Subscriptions & Refunds:</strong> Monthly subscriptions are billed automatically every 30 days. You may cancel anytime via the self-service billing portal.</p>
-    </div>
-  </div>
-
-  <!-- Privacy Modal -->
-  <div class="modal-overlay" id="modal-privacy">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeModal('privacy')">&times;</button>
-      <h3>Privacy Policy</h3>
-      <p>Last updated: September 2026</p>
-      <p><strong>Zero Data Collection:</strong> VidaClip is a local-first application. We do not collect, store, or transmit your video files, audio tracks, or personal recordings. All rendering takes place strictly on your local hardware.</p>
-      <p><strong>Payment Information:</strong> All billing and payments are securely handled by our Merchant of Record (Lemon Squeezy). We never see or store your credit card information.</p>
-    </div>
-  </div>
-
-  <!-- Extension Install Modal (Multi-Browser) -->
-  <div class="modal-overlay" id="modal-install">
-    <div class="modal-box" style="max-width: 680px;">
-      <button class="modal-close" onclick="closeModal('install')">&times;</button>
-      <h3>VidaClip Extension — Browser Setup Guide</h3>
-      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 8px;">
-        Choose your web browser below for step-by-step installation instructions:
-      </p>
-
-      <!-- Browser Tabs -->
-      <div class="browser-nav">
-        <button class="browser-tab active" data-browser="chrome" onclick="switchBrowserTab('chrome')">
-          🌐 Google Chrome
-        </button>
-        <button class="browser-tab" data-browser="edge" onclick="switchBrowserTab('edge')">
-          🌊 Microsoft Edge
-        </button>
-        <button class="browser-tab" data-browser="brave" onclick="switchBrowserTab('brave')">
-          🦁 Brave Browser
-        </button>
-        <button class="browser-tab" data-browser="firefox" onclick="switchBrowserTab('firefox')">
-          🦊 Mozilla Firefox
-        </button>
-      </div>
-
-      <!-- Tab 1: Chrome -->
-      <div class="browser-pane active" id="pane-chrome">
-        <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-            <span style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">Chrome Web Store: Pending Review</span>
-          </div>
-          <h4 style="margin: 0 0 4px; color: #a5b4fc; font-size: 14px;">Install in 30 Seconds via Unpacked Extension</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--text-muted);">While our official Chrome Web Store listing completes standard Google verification, you can install the verified package directly:</p>
-        </div>
-        <ol style="color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
-        <li><strong>Download:</strong> Click the button below to download <code>VidaClip-Extension-1.2.9.zip</code> and extract it to a folder.</li>
-          <li><strong>Open Extensions:</strong> In Chrome's address bar, type <code>chrome://extensions</code> and press Enter.</li>
-          <li><strong>Developer Mode:</strong> Switch on the <strong>Developer mode</strong> toggle located at the top-right corner.</li>
-          <li><strong>Load Unpacked:</strong> Click the <strong>Load unpacked</strong> button at the top-left, and select the extracted folder.</li>
-        </ol>
-      </div>
-
-      <!-- Tab 2: Edge -->
-      <div class="browser-pane" id="pane-edge">
-        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
-          <div>
-            <span style="background: #10b981; color: #fff; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase;">Official Store Listing</span>
-            <h4 style="margin: 6px 0 2px; color: #34d399; font-size: 15px;">Available Now on Microsoft Edge Add-ons!</h4>
-            <p style="margin: 0; font-size: 13px; color: var(--text-muted);">Install directly with 1-click and get automatic silent updates.</p>
-          </div>
-          <a href="https://microsoftedge.microsoft.com/addons/detail/ooogedpnllkpbgdohjakigfajiohmdli" target="_blank" class="btn btn-primary" style="white-space: nowrap;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 12.18c0-4.32 2.45-8.22 6.3-10.05C5.7 3.96 5.85 6.06 6.8 8.04c.8 1.66 2.08 2.97 3.69 3.73-.24-.9-.23-1.85.03-2.73.34-1.12 1.05-2.07 2.01-2.69 1.48-.96 3.42-1.16 5.09-.54 1.7.63 3.01 2.02 3.6 3.71.6 1.7.42 3.59-.49 5.15-1.13 1.93-3.14 3.19-5.38 3.37-3.79.3-7.23-2.19-7.96-5.89-.09-.46-.14-.94-.14-1.42 0-.27.02-.54.05-.8C3.12 11.23 0 11.66 0 12.18z"/></svg>
-            Get from Microsoft Edge Store
-          </a>
-        </div>
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;"><strong>Or install manually via Developer Mode:</strong></p>
-        <ol style="color: var(--text-muted); font-size: 13px; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
-          <li>Download and extract <code>VidaClip-Extension-1.2.9.zip</code>.</li>
-          <li>In Edge's address bar, type <code>edge://extensions</code> and press Enter.</li>
-          <li>Toggle on <strong>Developer mode</strong> in the left sidebar menu.</li>
-          <li>Click <strong>Load unpacked</strong> and select the unzipped <code>VidaClip-Extension-1.2.9</code> folder.</li>
-        </ol>
-      </div>
-
-      <!-- Tab 3: Brave -->
-      <div class="browser-pane" id="pane-brave">
-        <div style="background: rgba(249, 115, 22, 0.08); border: 1px solid rgba(249, 115, 22, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
-          <h4 style="margin: 0 0 4px; color: #fdba74; font-size: 14px;">Brave Browser Setup</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--text-muted);">Full Brave Shields compatibility with 100% private local clipping.</p>
-        </div>
-        <ol style="color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
-          <li><strong>Download:</strong> Download and extract <code>VidaClip-Extension-1.2.9.zip</code>.</li>
-          <li><strong>Open Extensions:</strong> Go to <code>brave://extensions</code> in your Brave URL bar.</li>
-          <li><strong>Developer Mode:</strong> Enable the <strong>Developer mode</strong> toggle at the top right.</li>
-          <li><strong>Load Unpacked:</strong> Click <strong>Load unpacked</strong> and select the unzipped folder.</li>
-        </ol>
-      </div>
-
-      <!-- Tab 4: Firefox -->
-      <div class="browser-pane" id="pane-firefox">
-        <div style="background: rgba(236, 72, 153, 0.08); border: 1px solid rgba(236, 72, 153, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
-          <h4 style="margin: 0 0 4px; color: #f472b6; font-size: 14px;">Mozilla Firefox Setup</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--text-muted);">Compatible with Firefox AMO standard and temporary debugging.</p>
-        </div>
-        <ol style="color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
-          <li><strong>Download:</strong> Download and extract <code>VidaClip-Extension-1.2.9.zip</code>.</li>
-          <li><strong>Open Debugging:</strong> In Firefox address bar, navigate to <code>about:debugging#/runtime/this-firefox</code>.</li>
-          <li><strong>Load Add-on:</strong> Click the <strong>Load Temporary Add-on...</strong> button.</li>
-          <li><strong>Select Manifest:</strong> Select the <code>manifest.json</code> file located inside the extracted folder.</li>
-        </ol>
-      </div>
-
-      <div style="display: flex; gap: 12px; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 18px; margin-top: 8px;">
-        <a href="https://github.com/JamiiDels/VidaClip-/releases/download/v1.2.9/VidaClip-Extension-1.2.9.zip" class="btn btn-primary" style="flex: 1; justify-content: center;">
-          ⬇️ Download Extension Package (.zip)
-        </a>
-        <button onclick="closeModal('install')" class="btn btn-secondary">
-          Got It
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Windows Quick Start Modal -->
-  <div class="modal-overlay" id="modal-windows">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeModal('windows')">&times;</button>
-      <h3>VidaClip Desktop — Windows Installation Guide</h3>
-      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">VidaClip Desktop is a portable Windows app. It includes the local engine and editor—no separate setup wizard required:</p>
-      <ol style="color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
-        <li><strong>Extract:</strong> Unzip <code>VidaClip-Desktop-1.2.9-Windows.zip</code> anywhere you like.</li>
-        <li><strong>Open VidaClip:</strong> Double-click <code>VidaClip_Desktop.exe</code>.</li>
-        <li><strong>Start clipping:</strong> Keep the app open, then use the ✂ Clip button in your browser or import media into the Library.</li>
-      </ol>
-      <div style="background: rgba(124, 99, 255, 0.1); border: 1px solid rgba(124, 99, 255, 0.3); border-radius: 10px; padding: 12px; margin-top: 14px;">
-        <p style="font-size: 13px; color: #a78bfa; margin: 0;"><strong>📦 One download, complete workspace:</strong> the portable package includes the Desktop engine, Studio editor and local processing tools.</p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function openModal(id) {
-      document.getElementById('modal-' + id).classList.add('active');
-    }
-    function closeModal(id) {
-      document.getElementById('modal-' + id).classList.remove('active');
-    }
-    function switchBrowserTab(browserName) {
-      document.querySelectorAll('.browser-tab').forEach(function(tab) {
-        tab.classList.toggle('active', tab.getAttribute('data-browser') === browserName);
-      });
-      document.querySelectorAll('.browser-pane').forEach(function(pane) {
-        pane.classList.toggle('active', pane.id === 'pane-' + browserName);
-      });
-    }
-
-    // Apple TV+ Style Panoramic Showcase Carousel
-    (function initAppleCarousel() {
-      var slides = Array.from(document.querySelectorAll('.apple-slide'));
-      var dots = Array.from(document.querySelectorAll('.apple-dot'));
-      var prevBtn = document.getElementById('apple-prev');
-      var nextBtn = document.getElementById('apple-next');
-      var playBtn = document.getElementById('apple-play-toggle');
-      var track = document.getElementById('apple-carousel-track');
-      var currentIndex = 0;
-      var total = slides.length;
-      var autoTimer = null;
-      var isPlaying = true;
-
-      function updateTrackHeight() {
-        if (!track) return;
-        var active = track.querySelector('.apple-slide.active');
-        if (active) {
-          var h = active.offsetHeight;
-          if (h > 0) {
-            track.style.minHeight = (h + 24) + 'px';
-          }
-        }
-      }
-
-      function updateSlides() {
-        slides.forEach(function(slide, idx) {
-          slide.classList.remove('active', 'prev', 'next');
-          if (idx === currentIndex) {
-            slide.classList.add('active');
-          } else if (idx === (currentIndex - 1 + total) % total) {
-            slide.classList.add('prev');
-          } else if (idx === (currentIndex + 1) % total) {
-            slide.classList.add('next');
-          }
-        });
-
-        dots.forEach(function(dot, idx) {
-          dot.classList.toggle('active', idx === currentIndex);
-        });
-
-        requestAnimationFrame(updateTrackHeight);
-      }
-
-      function goToSlide(index) {
-        currentIndex = (index + total) % total;
-        updateSlides();
-      }
-
-      function nextSlide() {
-        goToSlide(currentIndex + 1);
-      }
-
-      function prevSlide() {
-        goToSlide(currentIndex - 1);
-      }
-
-      if (prevBtn) prevBtn.onclick = function() { prevSlide(); resetTimer(); };
-      if (nextBtn) nextBtn.onclick = function() { nextSlide(); resetTimer(); };
-
-      dots.forEach(function(dot, idx) {
-        dot.onclick = function() {
-          goToSlide(idx);
-          resetTimer();
-        };
-      });
-
-      slides.forEach(function(slide, idx) {
-        slide.onclick = function(e) {
-          if (e.target.closest('.apple-slide-action')) return;
-          if (slide.classList.contains('prev') || slide.classList.contains('next')) {
-            goToSlide(idx);
-            resetTimer();
-          }
-        };
-      });
-
-      function startTimer() {
-        if (autoTimer) clearInterval(autoTimer);
-        if (isPlaying) {
-          autoTimer = setInterval(nextSlide, 5000);
-        }
-      }
-
-      function resetTimer() {
-        startTimer();
-      }
-
-      if (playBtn) {
-        playBtn.onclick = function() {
-          isPlaying = !isPlaying;
-          playBtn.textContent = isPlaying ? '⏸' : '▶';
-          playBtn.setAttribute('title', isPlaying ? 'Pause autoplay' : 'Start autoplay');
-          if (isPlaying) startTimer();
-          else if (autoTimer) clearInterval(autoTimer);
-        };
-      }
-
-      if (track) {
-        track.addEventListener('mouseenter', function() {
-          if (autoTimer) clearInterval(autoTimer);
-        });
-        track.addEventListener('mouseleave', function() {
-          if (isPlaying) startTimer();
-        });
-      }
-
-      // Keyboard arrow control when showcase is near view
-      document.addEventListener('keydown', function(e) {
-        if (!track) return;
-        var rect = track.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          if (e.key === 'ArrowLeft') { prevSlide(); resetTimer(); }
-          else if (e.key === 'ArrowRight') { nextSlide(); resetTimer(); }
-        }
-      });
-
-      window.addEventListener('resize', updateTrackHeight);
-      window.addEventListener('load', updateTrackHeight);
-      updateSlides();
-      startTimer();
-      setTimeout(updateTrackHeight, 150);
-    })();
-
-    // Billing Toggle: Monthly vs 1-Year (Annual)
-    var isYearly = false;
-    var planData = {
-      creator: {
-        monthlyPrice: '$9.99',
-        monthlyPeriod: '/ month',
-        monthlySub: 'Billed monthly ($9.99/mo)',
-        monthlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/e017e628-11b6-482e-a86c-69cf3463c09b',
-        yearlyPrice: '$79',
-        yearlyPeriod: '/ year',
-        yearlySub: 'Just $6.58/mo • Save $40.88 (34% off)',
-        yearlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/57e66a32-1e1f-4d44-8f50-36d3605712b2',
-        monthlyBtn: 'Subscribe to Creator',
-        yearlyBtn: 'Get Creator 1-Year Plan ($79/yr)'
-      },
-      pro: {
-        monthlyPrice: '$19.99',
-        monthlyPeriod: '/ month',
-        monthlySub: 'Billed monthly ($19.99/mo)',
-        monthlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/8fcaea3a-e8cb-41ad-8b43-da98732f9e59',
-        yearlyPrice: '$159',
-        yearlyPeriod: '/ year',
-        yearlySub: 'Just $13.25/mo • Save $80.88 (33% off)',
-        yearlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/f8805ab3-54a4-4d1a-8274-bc83c14f631d',
-        monthlyBtn: 'Subscribe to Pro',
-        yearlyBtn: 'Get Pro 1-Year Plan ($159/yr)'
-      },
-      studio: {
-        monthlyPrice: '$39.99',
-        monthlyPeriod: '/ month',
-        monthlySub: 'Billed monthly ($39.99/mo)',
-        monthlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/a62be072-8ce2-4de1-ac28-ca9510127ce2',
-        yearlyPrice: '$319',
-        yearlyPeriod: '/ year',
-        yearlySub: 'Just $26.58/mo • Save $160.88 (33% off)',
-        yearlyUrl: 'https://vidaclip.lemonsqueezy.com/checkout/buy/fb994be2-5c6f-4d43-911c-b396c97f2240',
-        monthlyBtn: 'Subscribe to Studio',
-        yearlyBtn: 'Get Studio 1-Year Plan ($319/yr)'
-      }
-    };
-
-    function setBilling(yearly) {
-      isYearly = yearly;
-      updateBillingUI();
-    }
-
-    function toggleBilling() {
-      isYearly = !isYearly;
-      updateBillingUI();
-    }
-
-    function updateBillingUI() {
-      var switchBtn = document.getElementById('billing-switch');
-      var labelMonthly = document.getElementById('label-monthly');
-      var labelYearly = document.getElementById('label-yearly');
-
-      if (switchBtn) switchBtn.classList.toggle('active', isYearly);
-      if (labelMonthly) labelMonthly.classList.toggle('active', !isYearly);
-      if (labelYearly) labelYearly.classList.toggle('active', isYearly);
-
-      ['creator', 'pro', 'studio'].forEach(function(plan) {
-        var priceEl = document.getElementById('price-' + plan);
-        var subEl = document.getElementById('sub-' + plan);
-        var btnEl = document.getElementById('btn-' + plan);
-        var data = planData[plan];
-
-        if (priceEl) {
-          var price = isYearly ? data.yearlyPrice : data.monthlyPrice;
-          var period = isYearly ? data.yearlyPeriod : data.monthlyPeriod;
-          priceEl.innerHTML = price + ' <span>' + period + '</span>';
-        }
-        if (subEl) {
-          subEl.textContent = isYearly ? data.yearlySub : data.monthlySub;
-        }
-        if (btnEl) {
-          btnEl.textContent = isYearly ? data.yearlyBtn : data.monthlyBtn;
-          btnEl.href = isYearly ? data.yearlyUrl : data.monthlyUrl;
-        }
-      });
-    }
-  </script>
 </body>
 </html>
