@@ -32,6 +32,7 @@ if (studioTour) {
       photo.alt = preview.alt;
       photo.src = preview.image;
       link.href = preview.image;
+      link.dataset.screenshotTitle = button.textContent.trim();
       link.setAttribute("aria-label", "Open the full " + button.textContent.trim() + " screenshot");
       caption.textContent = preview.caption;
     });
@@ -69,36 +70,72 @@ if (gallery && typeof gallery.showModal === "function") {
   const photo = gallery.querySelector("#gallery-full");
   const title = gallery.querySelector("#gallery-title");
   const count = gallery.querySelector("#gallery-count");
+  const controls = gallery.querySelector(".gallery-dialog-nav");
   const previous = gallery.querySelector("[data-gallery-prev]");
   const next = gallery.querySelector("[data-gallery-next]");
-  let index = 0;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let index = -1;
+  let opener = null;
 
-  function showScreenshot(position) {
-    if (position < 0 || position >= cards.length) return;
-    index = position;
-    const card = cards[index];
-    photo.src = card.href;
-    photo.alt = card.querySelector("img").alt;
-    title.textContent = card.querySelector("span").textContent;
-    count.textContent = (index + 1) + " of " + cards.length;
-    previous.disabled = index === 0;
-    next.disabled = index === cards.length - 1;
+  function showScreenshot(link) {
+    const thumbnail = link.querySelector("img");
+    const label = link.dataset.screenshotTitle || link.querySelector("span")?.textContent;
+    index = cards.indexOf(link);
+    photo.src = link.href;
+    photo.alt = thumbnail.alt || label;
+    gallery.style.setProperty("--photo-ratio", thumbnail.width && thumbnail.height
+      ? Number(thumbnail.getAttribute("width")) / Number(thumbnail.getAttribute("height"))
+      : 1.6);
+    title.textContent = label;
+    controls.hidden = index === -1;
+    count.textContent = index === -1 ? "" : (index + 1) + " of " + cards.length;
+    previous.disabled = index <= 0;
+    next.disabled = index === -1 || index === cards.length - 1;
   }
 
-  for (const [position, card] of cards.entries()) {
-    card.addEventListener("click", (event) => {
+  function stepGallery(direction) {
+    if (index === -1 || gallery.classList.contains("is-closing")) return;
+    const link = cards[index + direction];
+    if (link) showScreenshot(link);
+  }
+
+  function closeViewer() {
+    if (!gallery.open || gallery.classList.contains("is-closing")) return;
+    if (reducedMotion.matches) {
+      gallery.close();
+      return;
+    }
+    gallery.classList.add("is-closing");
+    window.setTimeout(() => gallery.close(), 160);
+  }
+
+  for (const link of document.querySelectorAll(".gallery-card, [data-screenshot-title]")) {
+    link.addEventListener("click", (event) => {
       if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
-      showScreenshot(position);
+      if (gallery.open) return;
+      opener = link;
+      showScreenshot(link);
       gallery.showModal();
     });
   }
 
-  previous.addEventListener("click", () => showScreenshot(index - 1));
-  next.addEventListener("click", () => showScreenshot(index + 1));
-  gallery.querySelector("[data-gallery-close]").addEventListener("click", () => gallery.close());
+  previous.addEventListener("click", () => stepGallery(-1));
+  next.addEventListener("click", () => stepGallery(1));
+  gallery.addEventListener("click", (event) => {
+    if (event.target !== photo && !event.target.closest("[data-gallery-prev], [data-gallery-next]")) closeViewer();
+  });
+  gallery.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeViewer();
+  });
+  gallery.addEventListener("close", () => {
+    gallery.classList.remove("is-closing");
+    opener?.focus({ preventScroll: true });
+    opener = null;
+  });
   gallery.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft") showScreenshot(index - 1);
-    if (event.key === "ArrowRight") showScreenshot(index + 1);
+    if (event.key === "ArrowLeft") stepGallery(-1);
+    if (event.key === "ArrowRight") stepGallery(1);
   });
 }

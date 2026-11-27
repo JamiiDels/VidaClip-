@@ -146,9 +146,22 @@ footer { border-top: 1px solid var(--line); }
 .gallery-card:hover, .gallery-card:focus-visible { border-color: #ff888e; }
 .gallery-card img { display: block; width: 100%; height: auto; }
 .gallery-card span { display: block; padding: 9px 12px; border-top: 1px solid #45343e; font-weight: 700; }
-.gallery-dialog { width: min(1050px, calc(100% - 24px)); max-height: calc(100% - 24px); padding: 14px; border: 1px solid #51414c; border-radius: 12px; background: #201a20; color: var(--ink); }
-.gallery-dialog::backdrop { background: #07060adc; }
-.gallery-dialog img { display: block; width: 100%; height: auto; max-height: 73vh; object-fit: contain; }
+.gallery-dialog { width: fit-content; max-width: calc(100% - 20px); max-height: calc(100% - 20px); padding: 12px; border: 1px solid #51414c; border-radius: 12px; background: #201a20; color: var(--ink); }
+.gallery-dialog::backdrop { background: #08070ab8; backdrop-filter: blur(8px); }
+.gallery-dialog img { display: block; width: min(1050px, calc(100vw - 46px), calc((100vh - 120px) * var(--photo-ratio, 1.6))); height: auto; border-radius: 5px; }
+.gallery-dialog-nav[hidden] { display: none; }
+html:has(.gallery-dialog[open]) { overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .gallery-dialog[open] { animation: screenshot-in 190ms ease-out both; }
+  .gallery-dialog[open]::backdrop { animation: backdrop-in 190ms ease-out both; }
+  .gallery-dialog.is-closing { animation: screenshot-out 150ms ease-in both; }
+  .gallery-dialog.is-closing::backdrop { animation: backdrop-in 150ms ease-in reverse both; }
+}
+@keyframes screenshot-in { from { opacity: .1; transform: scale(.91); } to { opacity: 1; transform: scale(1); } }
+@keyframes screenshot-out { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(.91); } }
+@keyframes backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+.feature-shot { display: block; cursor: zoom-in; }
+.release-shot, .feature-image a, .gallery-card { cursor: zoom-in; }
 .gallery-dialog-head, .gallery-dialog-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .gallery-dialog-head { margin-bottom: 9px; }
 .gallery-dialog-nav { margin-top: 9px; }
