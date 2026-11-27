@@ -139,3 +139,40 @@ if (gallery && typeof gallery.showModal === "function") {
     if (event.key === "ArrowRight") stepGallery(1);
   });
 }
+
+const releaseQuery = document.querySelector("#release-query");
+if (releaseQuery) {
+  const entries = [...document.querySelectorAll(".release-entry")];
+  const ranges = [...document.querySelectorAll(".release-range")];
+  const jumps = document.querySelector(".release-jumps");
+  const result = document.querySelector("#release-results");
+  const searchable = entries.map(entry => entry.textContent.toLowerCase().replace(/\s+/g, " "));
+  let openBeforeSearch = null;
+
+  function showLinkedRelease() {
+    const selected = document.getElementById(location.hash.slice(1));
+    if (selected?.classList.contains("release-entry")) selected.open = true;
+  }
+
+  showLinkedRelease();
+  window.addEventListener("hashchange", showLinkedRelease);
+  releaseQuery.addEventListener("input", () => {
+    const terms = releaseQuery.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    const filtering = terms.length > 0;
+    if (filtering && !openBeforeSearch) openBeforeSearch = entries.map(entry => entry.open);
+    let visible = 0;
+    for (const [index, entry] of entries.entries()) {
+      entry.hidden = filtering && !terms.every(term => searchable[index].includes(term));
+      if (!entry.hidden) visible += 1;
+      if (filtering) entry.open = !entry.hidden;
+      else if (openBeforeSearch) entry.open = openBeforeSearch[index];
+    }
+    if (!filtering) openBeforeSearch = null;
+    for (const range of ranges) {
+      range.hidden = !range.querySelector(".release-entry:not([hidden])");
+    }
+    jumps.hidden = filtering;
+    result.textContent = visible === 0 ? "No matching versions. Try a different search." :
+      visible + (visible === 1 ? " version" : " versions");
+  });
+}

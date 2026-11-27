@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#131214">
+  <meta name="description" content="VidaClip release history from v1.2.10 through v1.2.33, with every build listed.">
+  <title>Changelog — VidaClip</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="site.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="nav shell">
+      <a class="brand" href="index.html"><img src="assets/mark.webp" alt="" width="34" height="34">VidaClip</a>
+      <nav aria-label="Main navigation">
+        <a href="index.html#workspace">Features</a>
+        <a href="index.html#showcase">Studio</a>
+        <a href="changelog.html" aria-current="page">Changelog</a>
+        <a href="index.html#faq">Help</a>
+      </nav>
+      <a class="button primary nav-download" href="index.html#download">Get VidaClip</a>
+    </div>
+  </header>
+  <main class="section shell changelog-page" id="main">
+    <p class="eyebrow"><span></span> Release history</p>
+    <h1>VidaClip changelog.</h1>
+    <p class="section-intro">Browse 24 version entries from v1.2.10 to v1.2.33. This history includes local builds, with extension-only builds labeled separately.</p>
+    <div class="release-search">
+      <label for="release-query">Find a version or feature</label>
+      <input type="search" id="release-query" placeholder="Try v1.2.23, captions, or timeline">
+      <p id="release-results" role="status">24 versions</p>
+    </div>
+    <nav class="release-jumps" aria-label="Jump to a version range">
+      <a class="button secondary" href="#versions-33-28">1.2.33–1.2.28</a>
+      <a class="button secondary" href="#versions-27-22">1.2.27–1.2.22</a>
+      <a class="button secondary" href="#versions-21-15">1.2.21–1.2.15</a>
+      <a class="button secondary" href="#versions-14-10">1.2.14–1.2.10</a>
+    </nav>
+    <section class="release-range" id="versions-33-28" aria-labelledby="heading-33-28">
+      <h2 id="heading-33-28">v1.2.33–v1.2.28</h2>
+      <details class="release-entry" id="v1.2.33" open>
+        <summary><span class="release-version">v1.2.33</span><span class="release-entry-title">Auto Clip and editable highlights</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added Auto Clip to the Desktop Workspace for individual YouTube, Facebook, Instagram, and TikTok links.</li>
+            <li>Choose 5, 10, 15, or 20 seconds. Free supports 1–2 drafts per run. Creator, Pro, and Studio support up to 10 and custom lengths.</li>
+            <li>Optionally cut long pauses, generate captions, add a spoken intro, or add sound effects. Each draft opens on its own Studio timeline.</li>
+            <li>Added progress and cancellation, a browser-to-Desktop handoff, and audio ducking under spoken intros.</li>
+          </ul>
+          <a class="text-link" href="https://github.com/JamiiDels/VidaClip-/releases/tag/v1.2.33">Official v1.2.33 release</a>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.32">
+        <summary><span class="release-version">v1.2.32</span><span class="release-entry-title">Move clips across tracks and edit overlays on canvas</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Drag video between the main track and upper tracks, or drag upward to create a new track.</li>
+            <li>Restored the source-audio lane with a waveform and volume controls.</li>
+            <li>Added a scale slider, separate X/Y scale, rotation, and direct move and resize handles for text and stickers.</li>
+            <li>Added a Speech tab and a title menu action to use selected text as a voiceover.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.31">
+        <summary><span class="release-version">v1.2.31</span><span class="release-entry-title">A cleaner start to new projects</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Replaced the system naming prompt with a VidaClip project dialog.</li>
+            <li>New projects open with a clean Media Bin. Saved downloads are available through Browse saved clips.</li>
+            <li>Choose whether a saved clip goes into the Media Bin or directly on the timeline.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.30">
+        <summary><span class="release-version">v1.2.30</span><span class="release-entry-title">Local captions and Voice Studio</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added caption model and language choices, line-length controls, and caption timing, styling, and cue editing.</li>
+            <li>Import and export SRT or build timed cues from a script.</li>
+            <li>Added Windows and local English neural voices, narration preview, voice profiles from recordings, and placement on selected tracks.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.29">
+        <summary><span class="release-version">v1.2.29</span><span class="release-entry-title">Proxy previews, clip preparation, and automation</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added smaller proxy previews for editing while keeping original media available for export.</li>
+            <li>Added local speed ramps, freeze, reverse, stabilization, enhancement, denoising, and basic text-to-speech.</li>
+            <li>Added the Automation setup and Copy MCP config. Project saves are coordinated with automation edits.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.28">
+        <summary><span class="release-version">v1.2.28</span><span class="release-entry-title">Flexible tracks, project timelines, and local captioning</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added general-purpose tracks that can hold video, captions, and audio, with visibility and mute controls.</li>
+            <li>Create, duplicate, rename, and remove timelines in one project.</li>
+            <li>Added local auto-caption generation and editable caption blocks.</li>
+            <li>Added scrollable Inspector and export panels, animated render progress, and output controls for resolution, frame rate, H.264, HEVC, AV1, and encoders.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+    <section class="release-range" id="versions-27-22" aria-labelledby="heading-27-22">
+      <h2 id="heading-27-22">v1.2.27–v1.2.22</h2>
+      <details class="release-entry" id="v1.2.27">
+        <summary><span class="release-version">v1.2.27</span><span class="release-entry-title">Studio Editor naming and project home polish</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Renamed the main Projects destination to Studio Editor.</li>
+            <li>Made the red Create project action easier to spot on the project home.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.26">
+        <summary><span class="release-version">v1.2.26</span><span class="release-entry-title">Saved projects and automatically detected clips</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added a project home with Create project, Saved projects, Resume previous draft, and Clips.</li>
+            <li>Pick up finished downloads automatically from your VidaClip Clips folder.</li>
+            <li>Save project drafts separately and reopen them with their media and timeline settings. Project cards include cover previews.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.25">
+        <summary><span class="release-version">v1.2.25</span><span class="release-entry-title">On-clip keyframes, thumbnails, and clip menus</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added timeline keyframe diamonds that can be selected and retimed on the clip.</li>
+            <li>Added playhead-based position and scale controls to the Inspector.</li>
+            <li>Added video thumbnails to the Media Bin and right-click clip controls for editing and transforms.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.24">
+        <summary><span class="release-version">v1.2.24</span><span class="release-entry-title">Animated transforms, speed, transitions, and titles</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added position and scale keyframes with Linear, Ease, and Hold motion.</li>
+            <li>Added per-clip speed from 0.25× to 4×, with matching audio speed in the export.</li>
+            <li>Added transition timing and preview controls, plus editable title layers with timing, position, color, and size.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.23">
+        <summary><span class="release-version">v1.2.23</span><span class="release-entry-title">Move split clips and leave intentional gaps</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added direct placement of clips on the Studio timeline after splitting.</li>
+            <li>Extended the timeline ruler and canvas beyond the end of the sequence.</li>
+            <li>Added gap-aware preview and export so empty spaces stay in the edit.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.22">
+        <summary><span class="release-version">v1.2.22</span><span class="release-entry-title">More accurate download and render progress</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Reworked the Workspace progress monitor with measured progress and elapsed time.</li>
+            <li>Added separate download, audio, rendering, and finalization stages. The bar reserves 100% for a completed save.</li>
+            <li>Added progress reporting for direct links, clip downloads, Studio exports, and metadata cleanup.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+    <section class="release-range" id="versions-21-15" aria-labelledby="heading-21-15">
+      <h2 id="heading-21-15">v1.2.21–v1.2.15</h2>
+      <details class="release-entry" id="v1.2.21">
+        <summary><span class="release-version">v1.2.21</span><span class="release-entry-title">Detailed AI Label Cleaner activity</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added a before-and-after check for supported metadata markers.</li>
+            <li>The Activity Stream now shows what was scanned, which markers were detected or removed, and where the cleaned copy was saved.</li>
+            <li>Added clearer per-file results for batch cleaning and a message when no matching markers are found.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.20">
+        <summary><span class="release-version">v1.2.20</span><span class="release-entry-title">Filmstrip performance and trim limits</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Moved filmstrip rendering to a lower-priority background process.</li>
+            <li>Kept trim points within the source media duration.</li>
+            <li>Improved adding saved clips to the timeline and restoring drafts.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.19">
+        <summary><span class="release-version">v1.2.19</span><span class="release-entry-title">Faster scrubbing and lighter previews</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added half-resolution previews while keeping exports based on original media.</li>
+            <li>Added source filmstrip thumbnails and queued seek updates for timeline scrubbing.</li>
+            <li>Improved redraws after seeking so the preview catches up with the playhead.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.18">
+        <summary><span class="release-version">v1.2.18</span><span class="release-entry-title">Better drag-and-drop and an empty timeline</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added a clear empty timeline with Browse and Resume draft actions.</li>
+            <li>Let videos and photos start the main timeline, with audio and overlays placed on their own lanes.</li>
+            <li>Added Alt + mouse wheel and keyboard timeline zoom, and sharper Windows app icons.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.17">
+        <summary><span class="release-version">v1.2.17</span><span class="release-entry-title">Quick Clip and Studio Editor workspaces</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Separated the guided Quick Clip layouts from a manual Studio Editor workspace.</li>
+            <li>Added position, scale, and reset controls for clip transforms.</li>
+            <li>Made media cards show the destination lane and support adding assets directly.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.16">
+        <summary><span class="release-version">v1.2.16</span><span class="release-entry-title">Cleaner project startup and timeline readouts</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Start on Import & Media when no footage is loaded and enable export review after media is ready.</li>
+            <li>Refined duration and source counts, trim visibility, and restored-project status.</li>
+            <li>Show clearer empty-state guidance before placing sound or images on a timeline.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.15">
+        <summary><span class="release-version">v1.2.15</span><span class="release-entry-title">Desktop Workspace and embedded Studio overhaul</span><span class="release-product">Desktop</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added Direct Downloader for individual links, quality selection, and a local AI Label Cleaner for photos and video batches.</li>
+            <li>Opened Studio inside VidaClip Desktop using WebView2. Added blank sessions and local video, audio, and photo import.</li>
+            <li>Rebuilt Studio around a layered timeline with a Media Bin, waveform lanes, dual monitors, camera keyframes, captions and graphics controls, and export review.</li>
+            <li>Improved social link handling and added checks that rendered video and expected audio are readable.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+    <section class="release-range" id="versions-14-10" aria-labelledby="heading-14-10">
+      <h2 id="heading-14-10">v1.2.14–v1.2.10</h2>
+      <details class="release-entry" id="v1.2.14">
+        <summary><span class="release-version">v1.2.14</span><span class="release-entry-title">Downloader and cleaner in the extension popup</span><span class="release-product">Extension build</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added Video Downloader and AI Label Cleaner tabs, a quality picker, and drag-and-drop file cleaning through Desktop.</li>
+            <li>Added an Open Studio shortcut and cleanup quota status.</li>
+            <li>Refreshed extension icons and bundled the redesigned Studio interface.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.13">
+        <summary><span class="release-version">v1.2.13</span><span class="release-entry-title">Crop boxes stay inside the source video</span><span class="release-product">Extension build</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Clamped crop positions and sizes when rendering, dragging, or loading older projects.</li>
+            <li>Adjusted side-by-side preset crops to fit portrait sources and aligned the video stage with the actual frame.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.12">
+        <summary><span class="release-version">v1.2.12</span><span class="release-entry-title">Creator Packs and profile previews</span><span class="release-product">Extension build</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Added Podcast, Gaming, Reaction, and Story starting points with editable camera cuts.</li>
+            <li>Added Quick Director and a locally saved Creator Profile for the social preview.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.11">
+        <summary><span class="release-version">v1.2.11</span><span class="release-entry-title">Plan synchronization and license clarity</span><span class="release-product">Desktop + extension</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Made the extension use the Desktop plan and allowances when connected.</li>
+            <li>Improved active membership, expiry, and Free fallback states.</li>
+            <li>Clarified how to import a video or choose a saved clip to enter Studio.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="release-entry" id="v1.2.10">
+        <summary><span class="release-version">v1.2.10</span><span class="release-entry-title">Studio scrolling and annual license testing</span><span class="release-product">Desktop + extension</span></summary>
+        <div class="release-entry-body">
+          <ul>
+            <li>Let the Studio page scroll vertically so controls stay reachable in smaller windows.</li>
+            <li>Added a dedicated local testing mode for one-year plan activation.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+    <section class="extension-history">
+      <h2>Browser extension previews</h2>
+      <p>These builds have their own version numbers.</p>
+      <ul>
+        <li><strong>v1.2.19</strong> added Auto Clip as the third tab alongside Downloader and AI Label Remover.</li>
+        <li><strong>v1.2.18</strong> added the first Open in Auto Clip action to the download menu.</li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <div class="shell footer-row">
+      <a class="brand" href="index.html"><img src="assets/mark.webp" alt="" width="32" height="32">VidaClip</a>
+      <nav aria-label="Footer navigation"><a href="index.html#screenshots">Screenshots</a><a href="index.html#pricing">Plans</a><a href="mailto:vidaclip.official@gmail.com">Contact VidaClip</a></nav>
+    </div>
+  </footer>
+</body>
+</html>
